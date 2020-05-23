@@ -1,0 +1,53 @@
+NC Servies GPU on AZure
+Ubuntu 18.04 LTS
+
+
+install python3
+torch 1.4
+transformers 2.8
+cuda 9
+
+sudo apt install nvidia-340
+
+Install Nvidia GPU drivers
+https://docs.microsoft.com/en-us/azure/virtual-machines/linux/n-series-driver-setup
+
+check GPU, Cuda, cudnn
+sudo apt install nvidia-cuda-toolkit
+
+nvcc  --version
+cat /usr/local/cuda/include/cudnn.h | grep CUDNN_MAJOR -A 2
+or
+cat /usr/include/cudnn.h | grep CUDNN_MAJOR -A 2
+nvidia-smi
+
+
+git clone https://www.github.com/nvidia/apex
+cd apex
+python setup.py install
+
+
+#Distributed training in Pytorch
+https://levelup.gitconnected.com/quick-primer-on-distributed-training-with-pytorch-ad362d8aa032
+https://github.com/hgrover/pytorchdistr
+https://github.com/NVIDIA/apex/blob/master/examples/simple/distributed/distributed_data_parallel.py
+
+http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804_10.0.130-1_amd64.deb
+
+##################Create Pytorch+Cuda docker image modified with Apex and other python packages################################################################################
+create new vm
+setup nvidia-docker
+https://medium.com/@sh.tsang/docker-tutorial-5-nvidia-docker-2-0-installation-in-ubuntu-18-04-cb80f17cac65
+create requirements.txt
+create docker file copying from https://github.com/NVIDIA/apex/tree/master/examples/docker
+modify by pip install
+
+
+install nvidia gpu drivers
+build image
+run image to test
+login to ACR
+push image to ACR
+
+
+

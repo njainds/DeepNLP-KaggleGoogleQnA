@@ -1,0 +1,60 @@
+Azure:
+
+Set-up Ubuntu 180.04 VM with a single GPU (NC or NV series)
+update libraries: sudo apt-get update
+Install Cuda drivers:
+https://docs.microsoft.com/en-us/azure/virtual-machines/linux/n-series-driver-setup
+http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804_10.0.130-1_amd64.deb
+sudo apt install nvidia-340
+
+Install Pytorch, Cuda, CUDnn and NCCL
+
+Option1: Manual
+sudo apt install nvidia-cuda-toolkit
+
+nvcc  --version
+cat /usr/local/cuda/include/cudnn.h | grep CUDNN_MAJOR -A 2
+or
+cat /usr/include/cudnn.h | grep CUDNN_MAJOR -A 2
+nvidia-smi
+
+Option2: Docker Image from Nvida GPU container registry
+https://github.com/NVIDIA/apex/tree/master/examples/docker
+setup nvidia-docker
+https://medium.com/@sh.tsang/docker-tutorial-5-nvidia-docker-2-0-installation-in-ubuntu-18-04-cb80f17cac65
+
+
+##Install python libraries for Training:
+Install Apex for mixed precision training:
+git clone https://www.github.com/nvidia/apex
+cd apex
+python setup.py install
+
+pip install -r requirements.txt
+
+or using above Option#2: Build a docker image and package all libraries in the image.
+
+###################################Distributed training in Pytorch################################################
+#https://levelup.gitconnected.com/quick-primer-on-distributed-training-with-pytorch-ad362d8aa032
+#https://github.com/hgrover/pytorchdistr
+#https://pytorch.org/tutorials/beginner/aws_distributed_training_tutorial.html
+#https://github.com/NVIDIA/apex/blob/master/examples/simple/distributed/distributed_data_parallel.py
+#https://github.com/pytorch/examples/blob/master/imagenet/main.py
+#AzureML: https://github.com/microsoft/AzureML-BERT/blob/master/finetune/run_squad_azureml.py
+#AzureML: https://github.com/microsoft/AzureML-BERT/blob/master/finetune/PyTorch/notebooks/BERT_Eval_SQUAD.ipynb
+
+
+##############Notes#########################
+1. distributed data parallel creates processes using pytorch distributed launch utility so you don't need to manually launch script for each GPU of same node.
+2. Each GPU has its own python process and works only on the data assigned to it. Batch size is per gpu per node.
+3. All the metric calculated during training on training data which is DistributedSample are only for data specific to GPU.
+
+
+
+2 ways to Scale to multiple GPU training scaled across machines:
+1. Pytorch distributed Launch utility. It can use NCCL, MPI or Gloo. Preferred is NCCL.
+2. Horovod (by Uber) https://github.com/horovod/horovod
+Horovod uses MPI for communication across processes by default. However to communicate across GPUs it uses NCCL 2.
+
+
+

@@ -1,0 +1,117 @@
+# Explore Dataset and Develop baseline
+https://www.kaggle.com/corochann/google-quest-first-data-introduction - done
+https://www.kaggle.com/codename007/start-from-here-quest-complete-eda-fe - done
+
+# Baseline Pytorch bert model (on kaggle kernel)
+https://www.kaggle.com/phoenix9032/pytorch-bert-plain - 22/03 - done
+
+
+# Build models using Pre-trained SOTA LMs (Read papers for LMs) <Use AzureML for training and deploying of GPU cluster>
+https://github.com/jionie/Google-Quest-Answer  - 13/04 (QC on local + Deploy on cloud VM single GPU)
+https://www.kaggle.com/jionie/models-with-optimization-v5
+
+# implement 3rd place solution:
+https://www.kaggle.com/c/google-quest-challenge/discussion/129927 - 17/04
+
+# implement 2nd place solution:
+https://www.kaggle.com/c/google-quest-challenge/discussion/129978 - 17/04
+
+# implement 1st place solution:  -17/04
+https://www.kaggle.com/c/google-quest-challenge/discussion/129840
+https://medium.com/kaggle-blog/the-3-ingredients-to-our-success-winners-dish-on-their-solution-to-googles-quest-q-a-labeling-c1a63014b88
+https://github.com/oleg-yaroshevskiy/quest_qa_labeling/tree/yorko
+
+# Train a new LM (like BERT) using HuggingFace transformers and tokenizers library
+https://huggingface.co/blog/how-to-train 26/04
+
+################################################################################################
+try training and deploying on Azure:
+training script: https://github.com/microsoft/AzureML-BERT/blob/master/finetune/run_squad_azureml.py
+Configuring Azure for training:https://github.com/microsoft/AzureML-BERT/blob/master/finetune/PyTorch/notebooks/BERT_Eval_SQUAD.ipynb
+configure azure for deployment: https://github.com/onnx/tutorials/blob/master/tutorials/Inference-Bert-Model-for-High-Performance-with-ONNX-Runtime-on-AzureML.ipynb
+################################################################################################
+
+#Notes 17/04
+implement SWA (stochastic weight averaging)
+semi-supervised learning by Pseudo-labeling
+Post-processing by discretizing predictions (results/score depends on spearman-correlation-coeff b/w targets)
+Scaling of targets
+TPE optimization for ensemble weights
+Pre-training LMs on external datasets
+Sequence bucketing
+truncating tokens
+Papers: How to Fine-tune BERT for text classification https://arxiv.org/pdf/1905.05583.pdf
+multi-sample dropout, spatial dropout
+differential LR across layers
+differential normalization (weight decay) across layers
+Gradient accumulation for using larger batch sizes even if it doesn't fit into memory
+re-sampling strategy after each epoch
+
+
+#Deploy using DSVM single GPU
+Test code - 14/04
+Models - bert-base-uncased, bert-base-uncased, bert-base-uncased, roberta-base, gpt-2, xlnet_base_cased 15/04
+Differnt LR, LR schedulers, Batch_size , with/without extra tokens 15/04
+SWA using joinie code 16/04
+Bucket sequencing 16/04
+Approch from top kaggles solutions 1 , 2 and 3 17/04
+
+#
+
+# Train and deploy own BERTLM on stackexchange data using AzureML - multiple GPU 18/04
+
+
+###########################################################################################################
+https://docs.microsoft.com/en-us/azure/virtual-machines/sizes-gpu
+https://docs.microsoft.com/en-us/azure/architecture/reference-architectures/ai/training-deep-learning
+
+
+################################################################################################################
+1. bert-base-uncased, batch size=4, WarmupLinearSchedule, AdamW,  0.369710.(8th epoch no improvement)
+2. bert-base-cased, batch size=4, WarmupLinearSchedule, AdamW     0.364466.
+3. bert-large-uncased, batch size=4, WarmupLinearSchedule, AdamW  N/A
+4. roberta-base, batch size=4, WarmupLinearSchedule, AdamW       0.309682 (8th epoch no improvement)
+5. xlnet-base-cased, batch size=4, WarmupLinearSchedule, AdamW   N/A
+6. xlnet-large-cased, batch size=4, WarmupLinearSchedule, AdamW  N/A
+7. bert-base-uncased, batch size=4, WarmRestart, AdamW, fold0/9  0.367462 (diverged after Warmup restart at epoch 6 increases LR)
+8. bert-base-uncased, batch size=8, WarmRestart, AdamW, fold0/9  0.385391 (diverged after Warmup restart at epoch 6 increases LR)
+9. bert-base-uncased, batch size=4, WarmupLinearSchedule, AdamW, extra_token 0.269243 (still underfit)
+10. max_len = 256 - done
+11. understand Roberta and XLnet model -done
+12. implement SWA, bucketsequencing, randomsampler, multi-sample dropout of the various bert layers and other ideas from top solutions
+13. implement pretraining LM and deploy to VM distributed cluster for training
+
+
+#sudo python3 train_model.py --model_name "bert-base-uncased" --content "Question_Answer" --max_len 512 --fold 0 --seed 2020 --split "MultilabelStratifiedKFold" --n_splits 10 --batch_size 4 --valid_batch_size 32 --accumulation_steps 2 --lr 1e-4 --loss "bce" --augment --num_epoch 8 --num_workers 4
+sudo python3 train_model.py --model_name "bert-base-cased" --content "Question_Answer" --max_len 512 --fold 0 --seed 2020 --split "MultilabelStratifiedKFold" --n_splits 10 --batch_size 4 --valid_batch_size 32 --accumulation_steps 2 --lr 1e-4 --loss "bce" --augment --num_epoch 8 --num_workers 4
+sudo python3 train_model.py --model_name "bert-base-uncased" --content "Question_Answer" --lr_scheduler "WarmRestart" --max_len 512 --fold 0 --seed 2020 --split "MultilabelStratifiedKFold" --n_splits 10 --batch_size 4 --valid_batch_size 32 --accumulation_steps 2 --lr 1e-4 --loss "bce" --augment --num_epoch 8 --num_workers 4
+sudo python3 train_model.py --model_name "bert-base-uncased" --content "Question_Answer" --lr_scheduler "WarmRestart" --max_len 512 --fold 0 --seed 2020 --split "MultilabelStratifiedKFold" --n_splits 10 --batch_size 8 --valid_batch_size 32 --accumulation_steps 2 --lr 1e-4 --loss "bce" --augment --num_epoch 8 --num_workers 4
+sudo python3 train_model.py --model_name "roberta-base" --content "Question_Answer" --max_len 512 --fold 0 --seed 2020 --split "MultilabelStratifiedKFold" --n_splits 10 --batch_size 4 --valid_batch_size 32 --accumulation_steps 2 --lr 1e-4 --loss "bce" --augment --num_epoch 8 --num_workers 4
+#sudo python3 train_model.py --model_type "xlnet" --model_name "xlnet-base-cased" --content "Question_Answer" --max_len 512 --fold 0 --seed 2020 --split "MultilabelStratifiedKFold" --n_splits 10 --batch_size 4 --valid_batch_size 32 --accumulation_steps 2 --lr 1e-4 --loss "bce" --augment --num_epoch 8 --num_workers 4
+#sudo python3 train_model.py --model_name "bert-large-uncased" --content "Question_Answer" --max_len 512 --fold 0 --seed 2020 --split "MultilabelStratifiedKFold" --n_splits 10 --batch_size 2 --valid_batch_size 32 --accumulation_steps 2 --lr 1e-4 --loss "bce" --augment --num_epoch 8 --num_workers 4
+#sudo python3 train_model.py --model_type "xlnet" --model_name "xlnet-large-cased" --content "Question_Answer" --max_len 512 --fold 0 --seed 2020 --split "MultilabelStratifiedKFold" --n_splits 10 --batch_size 4 --valid_batch_size 32 --accumulation_steps 2 --lr 1e-4 --loss "bce" --augment --num_epoch 8 --num_workers 4
+sudo python3 train_model.py --model_name "bert-base-uncased" --extra_token --content "Question_Answer" --max_len 512 --fold 0 --seed 2020 --split "MultilabelStratifiedKFold" --n_splits 10 --batch_size 4 --valid_batch_size 32 --accumulation_steps 2 --lr 1e-4 --loss "bce" --augment --num_epoch 8 --num_workers 4
+
+
+
+
+1. Shuffle batches at each epoch 22/4 -done
+2. SWA 22/4-done
+3. bucket sequencing 23/4
+4. multi sample dropout for hidden layers at last 23/4
+5. Other ideas 24/4 :
+-fix code (input representaion of sequence) for XLNet and Roberta
+-LSTM and GRU models
+-TPE optmization for ensemble/blending
+-post process outputs - capping
+-combine Question body_title as single, combine title and answer etc.
+6. Pretrain LM 25-26/4
+
+
+
+#####################################################
+1. Try Azureml by removing Apex parellel from code but use other requires pip libaries in Pytorch estimator
+2. Try Azueml by using custom docker image from exisintg azureml demo and remove conflicting libraries
+3. Try Azureml by using custom docker image built today. No need for adding any other dependency
+4. set-up the 4 node cluster by loading docker image built today and installing required drivers. Modify the script and deploy on cluster.
+5. Manually set-up the 4 node cluster and deploy the training script

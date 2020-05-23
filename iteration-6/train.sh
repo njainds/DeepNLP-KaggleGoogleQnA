@@ -1,0 +1,4 @@
+#sudo python3 train_model.py --model_name "bert-base-uncased" --content "Question_Answer" --max_len 512 --fold 0 --seed 2020 --split "MultilabelStratifiedKFold" --n_splits 10 --batch_size 8 --valid_batch_size 32 --accumulation_steps 2 --lr 1e-4 --loss "bce" --augment --num_epoch 8 --num_workers 4
+#sudo python3 train_model.py --model_type "xlnet" --model_name "xlnet-base-cased" --content "Question_Answer" --max_len 512 --fold 0 --seed 2020 --split "MultilabelStratifiedKFold" --n_splits 10 --batch_size 4 --valid_batch_size 32 --accumulation_steps 2 --lr 1e-4 --loss "bce" --augment --num_epoch 8 --num_workers 4
+sudo python3 train_model.py --model_type "xlnet" --model_name "xlnet-base-cased" --content "Question_Answer" --max_len 512 --fold 0 --seed 2020 --split "MultilabelStratifiedKFold" --n_splits 10 --batch_size 8 --valid_batch_size 32 --accumulation_steps 1 --lr 1e-4 --loss "bce" --augment --num_epoch 8 --num_workers 4
+

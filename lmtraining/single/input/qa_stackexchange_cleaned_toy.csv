@@ -1,0 +1,1956 @@
+id,host,question_username,question_score,question_views,question_favs,answers_count,answers_max_score,answers_mean_score,question_title,question_body,answer_username,answer,answer_score,is_answer_accepted
+1,arduino.stackexchange.com,Butzke,3.756039622619845,4.706375587368495,3.658653063442409,6.558628861997287,4.216106046240204,3.322457190355964,Is an Arduino capable of running 24/7?,"I'm making a simple Arduino web server and I want to keep it turned on all the time. So it must endure to stay working continuously. 
+
+I'm using an Arduino Uno with a Ethernet Shield.
+It's powered with a simple outlet power supply 5V @ 1A.
+
+My Questions:
+
+
+Will I have any problems leaving the Arduino turned on all the time?
+Is there some other Arduino board better recommended for this?
+Are there any precautions that I need to heed regarding this?
+
+",sachleen,"You shouldn't have any issues keeping it on all the time, however, some thing to consider is any counters you may have, like the use of millis().
+
+From the Arduino docs on millis:
+
+
+  This number will overflow (go back to zero), after approximately 50 days.
+
+
+So for projects that are on for long periods of time, you may not see an issue immediately but something like this could pop up and cause errors down the road.
+",4.593351015394294,2.144146371199283
+1,arduino.stackexchange.com,Butzke,3.756039622619845,4.706375587368495,3.658653063442409,6.558628861997287,4.216106046240204,3.322457190355964,Is an Arduino capable of running 24/7?,"I'm making a simple Arduino web server and I want to keep it turned on all the time. So it must endure to stay working continuously. 
+
+I'm using an Arduino Uno with a Ethernet Shield.
+It's powered with a simple outlet power supply 5V @ 1A.
+
+My Questions:
+
+
+Will I have any problems leaving the Arduino turned on all the time?
+Is there some other Arduino board better recommended for this?
+Are there any precautions that I need to heed regarding this?
+
+",sdcharle,"We've been running our Arduino-based RFID access system at Bloominglabs Hackerspace in Bloomington IN since late 2011 and aside from a couple power outages and software updates it runs around the clock, no problem. More recently we added a networked thermostat, same deal - it's running round the clock.
+",2.4751762263866004,0.0
+4,arduino.stackexchange.com,TheDoctor,3.400015834439095,5.617444059218616,2.865061401253157,5.136008818494832,2.728741481061108,2.468214578084615,How to get HTTPS on Arduino?,"Put plainly: is there a way to get an HTTPS connection on the Arduino?
+
+I have been looking in to it, and I have found it is impossible with the standard library and the Ethernet shield, but is there a custom library that can do it? 
+
+What about a coprocessor, i.e. like the WiFi shield has? Anyone know if the Arduino yún has ssl?
+",Federico Fissore,"MCUs mounted on Arduinos don't have the horse power to handle https connections.
+
+Yún does handle https on the linux side, with software like curl, wget or python. Your sketch can just delegate the task to the linux side.
+
+While curl works fine, despite having python preinstalled, you need to manually install python-openssl, since it's not available out of the box (due to disk space constraints)
+",2.9729013728101257,2.144146371199283
+4,arduino.stackexchange.com,TheDoctor,3.400015834439095,5.617444059218616,2.865061401253157,5.136008818494832,2.728741481061108,2.468214578084615,How to get HTTPS on Arduino?,"Put plainly: is there a way to get an HTTPS connection on the Arduino?
+
+I have been looking in to it, and I have found it is impossible with the standard library and the Ethernet shield, but is there a custom library that can do it? 
+
+What about a coprocessor, i.e. like the WiFi shield has? Anyone know if the Arduino yún has ssl?
+",Aaron Ardiri,"(Disclaimer: I'm actually the author of the evothings.com article)
+The Arduino UNO is more than capable at doing TLS. I've just finished up a blog post series on the topic. I have a working example of an Arduino UNO doing elliptic curve cryptography (sect163r2) to exchange an AES-128 key for continued communication. 
+
+http://ardiri.com/blog/utls_defining_lightweight_security_for_iot_part_1
+...
+http://ardiri.com/blog/utls_defining_lightweight_security_for_iot_part_8
+
+I took an alternative approach to trying to make a true HTTPS connection - instead, this is using the same protocols under the hood but using an insecure communication channel to do so. Pretty much TLS on HTTP.
+",2.4751762263866004,0.0
+14,arduino.stackexchange.com,TheDoctor,2.65669797769803,4.19010168499218,0.0,2.8996623536012045,1.8526495551649944,2.041429364002458,Yún boot from SD card,"I have an Arduino Yún, and it only has 16mb flash onboard for the Linux. I was wondering of it is possible to put a bootloader on the flash that uses the sd card as a rootfs? i want to be able to do more projects on it than those that can fit in 16 MB flash.
+",TheDoctor,"And the Arduino team finally figured it out:
+
+http://blog.arduino.cc/2014/05/06/time-to-expand-your-yun-disk-space-and-install-node-js/
+",2.0184192764733138,2.144146371199283
+14,arduino.stackexchange.com,TheDoctor,2.65669797769803,4.19010168499218,0.0,2.8996623536012045,1.8526495551649944,2.041429364002458,Yún boot from SD card,"I have an Arduino Yún, and it only has 16mb flash onboard for the Linux. I was wondering of it is possible to put a bootloader on the flash that uses the sd card as a rootfs? i want to be able to do more projects on it than those that can fit in 16 MB flash.
+",lokers,"I am using Yun as well for my projects. I don't boot from SD card, but I store a lot of Python code there and it works for me. I've also seen this article that might be interesting for you. I haven't tried to do it on my Yun but I think it should work... This is example how to install node.js on the Yun (SD card), so in theory you could use the same approach for all additional software you want to run.
+
+http://linino.org/doku.php?id=wiki:nodejs
+",1.5616623265600276,0.0
+193,arduino.stackexchange.com,TheDoctor,2.2589216246970256,4.6977565296294905,1.6175421381780974,4.247928567048389,1.4334053624748055,1.393492329473663,How to really shrink a sketch,"I want to make a sketch that is as small as possible, for test purposes. The problem is, when i compile the BareMinimum sketch (with an empty setup and loop), i get 466 bytes for the Uno and a whopping 4,242 for the Leonardo. Is there any way to write your own code that has no extra functions (namely Timer0 for millis() and delay()). I would also like to be able to disable the keyboard/mouse functions for the Leonardo.
+",mpflaga,"You should be able to create your own board definition with a custom boards.txt file as per https://github.com/arduino/Arduino/wiki/Arduino-IDE-1.5---3rd-party-Hardware-specification. As I see there are several usb features in the leonardo's definition. I would hope that the compiles inclusion of the 4K is based off of these flags and not the processor type.
+
+Where the boards.txt would use the upload, bootloader sections from the Leonardo and the build from the uno.
+
+This is all assuming the core library build does not use processor specific flags to include USB functions.
+
+If you get such working. post back, I am sure others would be interested in such.
+
+
+
+I recently ran into this 4K used limitation on a library demo that actually maxed out the UNO and had to put in a
+
+#if !defined(__AVR_ATmega32U4__)
+...
+
+
+around a large chunk of extra features in the sketch to fit on the Leonardo.
+
+I had assume (wrong) that this 4K was because I still included Serial.print which when over the USB's CDC on the Leo. But I see after a memory dump of an empty sketch they are still there.
+
+C:\Users\mflaga\AppData\Local\Temp\build8958339595868119500.tmp&gt;avr-objdump -d sketch_feb13a.cpp.elf &gt; sketch_feb13a.cpp.elf.lst
+
+
+Which makes sense. As the Leonardo still requires the USB-CDC client (the 4K) as to detect the 1200 Baud connect from AVR-DUDE as to stroke the remote reboot.
+
+
+
+Hence making a custom boards.txt without USB in the build, also needs to have
+
+leonardo.upload.use_1200bps_touch=true
+
+
+removed.
+
+Once loaded on the target, this would require the upload to be synchronized with a manual reset of the target. As the ability to remote reboot is lost.
+",1.5616623265600276,0.0
+193,arduino.stackexchange.com,TheDoctor,2.2589216246970256,4.6977565296294905,1.6175421381780974,4.247928567048389,1.4334053624748055,1.393492329473663,How to really shrink a sketch,"I want to make a sketch that is as small as possible, for test purposes. The problem is, when i compile the BareMinimum sketch (with an empty setup and loop), i get 466 bytes for the Uno and a whopping 4,242 for the Leonardo. Is there any way to write your own code that has no extra functions (namely Timer0 for millis() and delay()). I would also like to be able to disable the keyboard/mouse functions for the Leonardo.
+",Patrick Deelman,"@annonomus penguin, sure we can
+Although the code compiles into 1180 bytes flash + 13 bytes RAM for an uno on my computer, we can improve on it :) so golf challenge accepted and also a few usefull tips since we are in the business of learning.
+
+Step 1: decrease variable requirements. 
+Using an int for a led port seems a bit overkill, we certainly don't have 65535 addressable IO ports on the arduino :) So we change it to a byte just for the fun of it. We will change it over to a #define later on, but to show the impact of using too large variable types.
+
+byte led = 13;
+int val;
+
+void setup() {                
+  pinMode(led, OUTPUT);     
+}
+
+void loop() {
+  blink();
+  val = digitalRead(10);
+}
+
+void blink() {
+  digitalWrite(led, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(1000);               // wait for a second
+  digitalWrite(led, LOW);    // turn the LED off by making the voltage LOW
+  delay(1000);               // wait for a second
+}
+
+
+Compiles into 1172 bytes + 13 byte RAM. This saves 8 bytes of flash due to fewer needed operations for the byte instead of a integer. I would expect 12 bytes of ram, but okay. Not that much, but every byte saved is good.
+
+Step 2: change over variable into defines when it makes sense.
+For example, the led byte is not needed, the pin won't unsolder itself.
+
+#define LED 13
+int val;
+
+void setup() {                
+  pinMode(LED, OUTPUT);     
+}
+
+void loop() {
+  blink();
+  val = digitalRead(10);
+}
+
+void blink() {
+  digitalWrite(LED, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(1000);               // wait for a second
+  digitalWrite(LED, LOW);    // turn the LED off by making the voltage LOW
+  delay(1000);               // wait for a second
+}
+
+
+Compiles into 1142 bytesflash + 11 bytes ram. Already 38 bytes saved. This is due to fewer register operations needed to fetch the int value. Also we saved 2 bytes from RAM. (still wondering why the byte didn't compile into 1 less byte of ram.....)
+
+Step 3: optimize code.
+I see 2 delays. I wonder if i change it to 1 delay it would save space, but i have to figure out the value of the LED pin and toggle (invert) it. We can do that with digitalRead(), but will it save space?
+
+#define LED 13
+int val;
+void setup() {                
+  pinMode(LED, OUTPUT);     
+}
+void loop() {
+  blink();
+  val = digitalRead(10);
+}
+void blink() {
+  digitalWrite(LED, !digitalRead(LED));   // toggle the led based on read value
+  delay(1000);               // wait for a second and spare yourself the other delay
+}
+
+
+Compiles into 1134 bytes + 11 bytes ram. Yay! another 8 bytes. That makes a total of 46 bytes and 2 fewer lines of code.
+
+Also another general tip on decreasing codesize. Don't use the String class. It's HUGE, learn how to deal with char arrays, strcpy(), strcmp(). If all you have are some basic string operations, the usage of the String class is mostly just wasting space on both flash and RAM.
+",0.0,0.0
+196,arduino.stackexchange.com,TheDoctor,0.0,4.512273783339147,0.0,2.8996623536012045,1.8526495551649944,2.041429364002458,When to use different variable types?,"There are several different types in the Arduino programming language. They each have different applications that can use up the limited RAM in the Arduino. When should i use each?
+",TheDoctor,"An overview of the most commonly used variables:
+
+
+byte: uses one byte (8 bits), holds numbers from 0 to 255
+char: a signed byte
+boolean: uses 1 byte, but only holds a value of true or false
+int: uses 2 bytes, holds numbers from -32768 to 32767, mostly used in general programming. an int is what is known as a signed variable, where the last bit controls if it is negative or positive
+long: uses 4 bytes, holds numbers from -2147483647 to 217283648, it is also signed
+long long: uses 8 bytes, can hold -9223372036854775808 to 9223372036854775807, signed
+float: uses 4 bytes, holds decimals from -3.4028235E+38 to 3.4028235E+38.
+double: almost identical to float
+string: an array of chars that represent text
+String: not to be confused with string, this is a class that holds text data with extra functions
+
+
+Most variable declarations can be prefixed with signed or unsigned to change the function of the sigh bit. For example, unsigned int x = 0; would create a variable that holds numbers from 0 to 65535 because the sign bit is used as an extra data bit.
+",1.5616623265600276,0.0
+196,arduino.stackexchange.com,TheDoctor,0.0,4.512273783339147,0.0,2.8996623536012045,1.8526495551649944,2.041429364002458,When to use different variable types?,"There are several different types in the Arduino programming language. They each have different applications that can use up the limited RAM in the Arduino. When should i use each?
+",mpflaga,"One should appreciate that the Arduino is an Embedded Processor. Specifically that it has limited resources of RAM and ROM(aka Flash/program space). 
+
+Often is the case I see coding use the ""int"" defaultly. Almost sloppily. If that works great.
+
+BUT!!!!
+You can run out of room REAL FAST with only 2K of RAM.
+
+I would recommend that you size down your type to the minimum of what it needs to be describing it. One also gets a better understanding of what it really is and its limitations. There is no need for an array of int(16bits) from bytes that were recieved from the SPI, UART or I2C. Or a matrix of RGB's that consume 3 bytes each, being int's. You cut your capacity in half.
+
+The pro/con: PRO: using default int everywhere makes it more inter changeable. The CON is that such interchangeability can lead to unintentional casting errors. 
+
+I would also recommend using C99 type def's which can be found at ""avr_stdint.html"">http://www.nongnu.org/avr-libc/user-manual/group_avr_stdint.html"" and elsewhere. It makes things vivid, regards to this aspect. Hence a ""int"" would be a ""int16_t"", ""unsigned long"" be ""uint32_t"" etc...
+
+It is worth knowing that in some cases a byte or char can not be replaced with int8_t, as such when used with string array functions. But they are still just as vivid.
+",2.0184192764733138,0.0
+6,arduino.stackexchange.com,sachleen,3.64315232990648,4.790716138441727,4.797059431122041,4.247928567048389,3.6461982590197737,3.8465161705420905,What are (or how do I use) the power saving options of the Arduino to extend battery life?,"For solar &amp; battery powered projects, decreasing power consumption is a necessity.
+
+I know a little bit about using a timer and interrupt to put the microcontroller into sleep when it isn't doing anything.
+
+I have also read that you can disable some peripherals to further save power.
+
+Here is a page explaining these: Power Saving Techniques
+
+My question:
+
+
+What other techniques are there to save power?
+Are there any libraries that make using these AVR features easier?
+
+",TheDoctor,"You could read through the 200-page datasheet, and then mess with some confusing bit shifts and registers, but I recommend this library: http://playground.arduino.cc/Code/Enerlib
+
+Also, if you're using an Uno or any one with a usb-to-serial chip, you could disable that or remove it.
+",2.9729013728101257,0.0
+6,arduino.stackexchange.com,sachleen,3.64315232990648,4.790716138441727,4.797059431122041,4.247928567048389,3.6461982590197737,3.8465161705420905,What are (or how do I use) the power saving options of the Arduino to extend battery life?,"For solar &amp; battery powered projects, decreasing power consumption is a necessity.
+
+I know a little bit about using a timer and interrupt to put the microcontroller into sleep when it isn't doing anything.
+
+I have also read that you can disable some peripherals to further save power.
+
+Here is a page explaining these: Power Saving Techniques
+
+My question:
+
+
+What other techniques are there to save power?
+Are there any libraries that make using these AVR features easier?
+
+",Ricardo,"Note: I wanted to point out that, even though my answer was accepted, the reader (you) should really read Anindo's answer first if you really want to save energy with any Arduino board. Once you address those items in your design, then you should read my answer and worry about how to set the MCU into low power mode.
+
+Having said that, there are several techniques to make an Arduino save power. I'll list a few and then point you to a page that explains them all in more detail.
+
+
+While the controller isn't doing anything important (between one read of a sensor and the next, for example), you can put the controller into one of the sleep modes below, with the command set_sleep_mode (SLEEP_MODE_PWR_DOWN). Next to each mode is the approximate power consumption of each mode. 
+
+
+SLEEP_MODE_IDLE: 15 mA
+SLEEP_MODE_ADC: 6.5 mA
+SLEEP_MODE_PWR_SAVE: 1.62 mA
+SLEEP_MODE_EXT_STANDBY: 1.62 mA
+SLEEP_MODE_STANDBY : 0.84 mA
+SLEEP_MODE_PWR_DOWN : 0.36 mA
+
+Disable brown-out detection (the circuitry that turns off the controller when low voltage is detected).
+Turn off ADC (analog to digita conversion)
+Use the internal clock
+
+
+Then, when you put the controller to sleep, you need to use one or more mechanisms below to wake up the controller and do something with it:
+
+
+Wake up with a signal
+Wake up with a timer
+
+
+This is a summary I made from -
+
+
+Nick Gammon's article: Power saving techniques for microprocessors.
+
+
+That article applies mostly to ATmega328P, but the technique applies to other Arduino compatible controllers as well. As TheDoctor said well, you will need to check the datashet to make sure your controller suports any of those techniques and how to do it more precisely.
+",3.972449528477347,2.144146371199283
+176,arduino.stackexchange.com,sachleen,3.777138009900567,6.453496774234846,4.410767326340682,6.769892497508446,3.761203719824554,2.3578483572962186,How do I print multiple variables in a string?,"Say I have some variables that I want to print out to the terminal, what's the easiest way to print them in a string?
+
+Currently I do something like this:
+
+Serial.print(""Var 1:"");Serial.println(var1);
+Serial.print("" Var 2:"");Serial.println(var2);
+Serial.print("" Var 3:"");Serial.println(var3);
+
+
+Is there a better way to do this?
+",asheeshr,"ardprintf is a function that I hacked together which simulates printf over the serial connection. This function (given at the bottom) can be pasted in the beginning of the files where the function is needed. It should not create any conflicts.
+
+It can be called similar to printf. See it in action in this example:
+
+
+void setup()
+{
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  int l=2;
+  char *j = ""test"";
+  long k = 123456789;
+  char s = 'g';
+  float f = 2.3;
+
+  ardprintf(""test %d %l %c %s %f"", l, k, s, j, f);
+
+  delay(5000);
+
+}
+
+
+The output as expected is:
+
+test 2 123456789 g test 2.30
+
+
+
+
+The function prototype is:
+
+int ardprintf(char *, ...);
+
+
+It returns the number of arguments detected in the function call. 
+
+This is the function definition:
+
+#ifndef ARDPRINTF
+#define ARDPRINTF
+#define ARDBUFFER 16
+#include &lt;stdarg.h&gt;
+#include &lt;Arduino.h&gt;
+
+int ardprintf(char *str, ...)
+{
+  int i, count=0, j=0, flag=0;
+  char temp[ARDBUFFER+1];
+  for(i=0; str[i]!='\0';i++)  if(str[i]=='%')  count++;
+
+  va_list argv;
+  va_start(argv, count);
+  for(i=0,j=0; str[i]!='\0';i++)
+  {
+    if(str[i]=='%')
+    {
+      temp[j] = '\0';
+      Serial.print(temp);
+      j=0;
+      temp[0] = '\0';
+
+      switch(str[++i])
+      {
+        case 'd': Serial.print(va_arg(argv, int));
+                  break;
+        case 'l': Serial.print(va_arg(argv, long));
+                  break;
+        case 'f': Serial.print(va_arg(argv, double));
+                  break;
+        case 'c': Serial.print((char)va_arg(argv, int));
+                  break;
+        case 's': Serial.print(va_arg(argv, char *));
+                  break;
+        default:  ;
+      };
+    }
+    else 
+    {
+      temp[j] = str[i];
+      j = (j+1)%ARDBUFFER;
+      if(j==0) 
+      {
+        temp[ARDBUFFER] = '\0';
+        Serial.print(temp);
+        temp[0]='\0';
+      }
+    }
+  };
+  Serial.println();
+  return count + 1;
+}
+#undef ARDBUFFER
+#endif
+
+
+**To print the % character, use %%.*
+
+
+
+Now, available on Github gists.
+",4.097745345131345,2.144146371199283
+176,arduino.stackexchange.com,sachleen,3.777138009900567,6.453496774234846,4.410767326340682,6.769892497508446,3.761203719824554,2.3578483572962186,How do I print multiple variables in a string?,"Say I have some variables that I want to print out to the terminal, what's the easiest way to print them in a string?
+
+Currently I do something like this:
+
+Serial.print(""Var 1:"");Serial.println(var1);
+Serial.print("" Var 2:"");Serial.println(var2);
+Serial.print("" Var 3:"");Serial.println(var3);
+
+
+Is there a better way to do this?
+",user270049,"I am newbie in Arduino world, but I recently found that this is just a regular C++ (without exceptions and probably polymorphism). But you still can enjoy templates. So my solution is to use following templates:
+
+void myprint(void)
+{
+  Serial.println("""");
+}
+
+template&lt;typename ...Args&gt;
+void myprint(const uint64_t &amp; val, Args &amp;&amp; ...args)
+{
+  serialPrintUint64(val);
+  myprint(args...);
+}
+
+template&lt;typename T, typename ...Args&gt;
+void myprint(const T &amp; t, Args &amp;&amp; ...args)
+{
+  Serial.print(t);
+  myprint(args...);
+}
+
+....
+
+// somewhere in your code
+myprint(""type: "", results.decode_type, 
+        ""\t value: "", results.value, 
+        ""\t addr: "", results.address,
+        ""\t cmd: "", results.command);
+
+
+Nice thing here is that it does not use any extra memory and extra processing here. 
+",1.2375881131933,0.0
+186,arduino.stackexchange.com,sachleen,2.65669797769803,4.585503521438499,1.0205554626321556,1.8294832541980406,2.9885964290925857,3.6661804309858605,Button state changing randomly,"I have a push button wired to my Arduino but it seems to be triggering randomly.
+
+I have one pin of the button connected to pin 2 on the arduino and the other connected to ground.
+
+void setup() {
+    Serial.begin(9600);
+
+    pinMode(2, INPUT);
+}
+
+void loop() {
+    Serial.println(digitalRead(2));
+}
+
+
+I expect it to print 1 continuously and go to 0 when I press the button down but sometimes it shows 0 even when I don't touch it.
+",sachleen,"When a button is connected in that configuration, the input is what's called floating, meaning it's not a 0 or a 1. When the button is pressed, it is connected to ground, so that's definitely a 0, but when it's not pressed down, we don't know the value of the pin.
+
+Pull Up Resistor
+
+We need to include what's called a ""pull-up"" resistor to pull the signal up to a logic 1 when the button is not pressed.
+
+
+
+Image from Sparkfun
+
+What this means is when the button is not pressed, the Arduino reads a logic 1. When the button is pressed, the current flows through the resistor to ground and the Arduino reads a logic 0.
+
+Internal Pull Up Resistor
+
+The Arduino also has internal pull up resistors so you don't necessarily have to add an extra component to your circuit. There are a couple of ways to use this.
+
+You used to have to do it like this:
+
+pinMode(pin, INPUT);           // set pin to input
+digitalWrite(pin, HIGH);       // turn on pullup resistors
+
+
+Now we can do it simply in one line:
+
+pinMode(pin, INPUT_PULLUP);
+
+
+This enables the 20k pull up resistor on that pin. The input will no longer be floating when the button is not pressed.
+
+Note: This only works when the other end is connected to ground.
+",3.256007389666614,0.0
+261,arduino.stackexchange.com,sachleen,2.516310727213411,4.824380482116806,0.0,3.658966508396081,2.2718937478551835,1.6480253232886726,Serial data showing up weird,"I have a simple sketch that prints out ""Hello World"" to the serial, but I'm getting a bunch of gibberish instead.
+
+void setup() {
+    Serial.begin(9600);
+}
+
+void loop() {
+    Serial.println(""Hello World"");
+    delay(1000);
+}
+
+
+Why isn't it printing ""Hello World"" like the code says?
+",tmaster,"I spent half an hour trying to solve that, and it was my Arduino Pro Mini that is 3.3V and I had selected 5V in the Arduino IDE (on PC).   Serial print never works like that even with same baud rate defined.
+
+Select the correct board in the Arduino IDE.
+
+To be clear, the correct processor (voltage/clock speed) under the Tools tab has to be selected.
+",0.0,0.0
+261,arduino.stackexchange.com,sachleen,2.516310727213411,4.824380482116806,0.0,3.658966508396081,2.2718937478551835,1.6480253232886726,Serial data showing up weird,"I have a simple sketch that prints out ""Hello World"" to the serial, but I'm getting a bunch of gibberish instead.
+
+void setup() {
+    Serial.begin(9600);
+}
+
+void loop() {
+    Serial.println(""Hello World"");
+    delay(1000);
+}
+
+
+Why isn't it printing ""Hello World"" like the code says?
+",John Doe,"Sachleen's answer (above) says: 
+
+The board and terminal are probably not using the same baud rate. 
+Check the bottom right corner of the Arduino Serial Terminal
+and make sure it is set to 9600.
+
+
+If this number is 9600, and you still get garbled data, check the output you obtained when uploading the code. It should read something like:
+
+Sketch uses 2754 bytes (8%) of program storage space. Maximum is 30720 bytes.
+Global variables use 195 bytes (9%) of dynamic memory, leaving 1853 bytes for local variables. Maximum is 2048 bytes.
+C:\Program Files (x86)\Arduino\hardware\tools\avr/bin/avrdude -CC:\Program Files (x86)\Arduino\hardware\tools\avr/etc/avrdude.conf -v -patmega328p -carduino -PCOM5 -b57600 -D -Uflash:w:C:\Users\Owner\AppData\Local\Temp\arduino_build_457862/LockCode.ino.hex:i 
+
+avrdude: Version 6.3, compiled on Jan 17 2017 at 12:00:53
+         Copyright (c) 2000-2005 Brian Dean, http://www.bdmicro.com/
+         Copyright (c) 2007-2014 Joerg Wunsch
+
+         System wide configuration file is ""C:\Program Files (x86)\Arduino\hardware\tools\avr/etc/avrdude.conf""
+
+         Using Port                    : COM5
+         Using Programmer              : arduino
+         Overriding Baud Rate          : 57600
+
+
+This bottom line (of what I have posted) says what your device's default baudrate is. For me, I changed Serial.begin(9600); --> Serial.begin(57600); and checked that the bottom right corner of my Arduino Serial Terminal read 57600.
+
+After I ran this, and it worked, I was able to switch back to 9600 and get non-garbled data. Arduino seems to be finicky...
+",0.0,0.0
+876,arduino.stackexchange.com,sachleen,3.19631389410123,4.5490368653129645,3.885616863885313,7.147590920649593,2.8000789651738187,2.5189577997809622,Project Showcase '14,"
+   
+  
+  The logo is a derivative of the Arduino Community Logo licensed under Creative Commons license CC-SA-BY-NC 3.0 
+
+
+Update: Winners Announced
+
+The winners of the contest have been announced. Please see the Meta post for details.
+
+To celebrate 10 years of Arduino, we are proud to announce the first event ever on Arduino Stack Exchange.
+
+
+  Get your boards and soldering equipment out, dig out the ICs and
+  resistors. The first Arduino Stack Exchange contest is just round the
+  corner. We will be looking for interesting projects that are built
+  using Arduinos. The contest is aimed towards sharing, discussing and
+  providing feedback on projects that you and other members are working
+  on. See announcement post
+
+
+Details:
+
+
+The prize is an official Stack Exchange t-shirt
+Limit two entries per person. If more than two are provided, only the first two will be considered. 
+Clones are allowed.
+Projects for consideration will be accepted through March 29th, 2014 at 4:00 UTC. The question will still remain open in case someone wants to show off their project they made on Arduino Day 2014.
+
+
+Visit the Meta post for discussion about this event and further information.
+
+Answer Format
+
+You may post up to two projects (as two separate answers) as entries for the contest. All extra entries will be deleted. Consider following the following template for entries:
+
+
+  Project Title
+  
+  Very Brief Description
+  
+  Description
+  
+  What is your project? What does it do? What problem does it solve?
+  
+  Design
+  
+  Things to include in this section:
+  
+  
+  Schematics and other design documentation. Fritzing is a good tool for drawing breadboard schematics like the one shown in the
+  project logo above.
+  Components used to build the project
+  Pictures or video
+  
+  
+  Conclusion
+  
+  Final thoughts. What did you learn from doing this project? What would
+  you do differently if you had to start over?
+
+
+You can copy/paste the following text if you want to use this template.
+
+# Project Title
+**Very Brief Description**
+
+# Description
+What is your project? What does it do? What problem does it solve?
+
+# Design
+Things to include in this section:
+
+- Schematics and other design documentation. [Fritzing][8] is a good tool for drawing breadboard schematics like the one shown in the project logo above.
+- Components used to build the project
+- Pictures or video
+
+# Conclusion
+Final thoughts. What did you learn from doing this project? What would you do differently if you had to start over?
+
+
+Prizes
+
+There are two prizes! The winner will be the submission getting the maximum number of upvotes (downvotes do not count) and will get a Stack Exchange T-shirt*! There will be something for the runner-up as well. The runner-up will be decided at the discretion of the event organizers.
+
+*Certain restrictions may apply. International shipping may take a few weeks. 
+
+Where do I submit my projects?
+
+Post your projects as answers to this post.
+",Jesse Laning,"ShiftLCD
+
+AVR based, Arduino compatible, board that mounts to the back of an 8x1 up to 20x4 Character LCD Screen.
+
+Description
+
+I just designed this board and the custom library to make it easier to use and LCD. Though they are pretty easy to use at the moment. It cuts down the number of output pins used from 6 to 3. It also has the option to expand the I/O by adding more shift registers on to the one that drives the display. The processor used is an ATTiny45 or ATTiny85 which has, after using the shift register, digital pins 1 (PWM) and 4 available and analog pin 2 (same pin as digital pin 4) available.
+
+Design
+
+
+OSH Park permalink which has parts listed
+Arduino Library
+
+
+
+
+
+
+Challenges
+
+One unforeseen challenge I faced was when I started I was using digital pins 0-2 to run the shift register, these also happened to be the programming pins (MISO, MOSI, SCK). So every time I reprogrammed the device the LCD would get sent a whole bunch of gibberish messages where the power would have to be turned off in order to reset the display. I solved this problem by moving the shift registers latch pin to digital pin 3 which is not a programming pin. Solving this also solved another problem for me because when I moved the latch pin it opened up digital pin 1 which had PWM usage, allowing for more things to be done with the board.
+
+Conclusion
+
+Granted this may not be the coolest product or idea, it still has its uses. The answer the question directly, ""What did you learn from doing this project"" I learned how to design from start to finish a PCB board. If I could do anything differently it would have been to use surface mount parts instead of through hole, then again it is just a prototype, one-off board. 
+",2.0184192764733138,0.0
+876,arduino.stackexchange.com,sachleen,3.19631389410123,4.5490368653129645,3.885616863885313,7.147590920649593,2.8000789651738187,2.5189577997809622,Project Showcase '14,"
+   
+  
+  The logo is a derivative of the Arduino Community Logo licensed under Creative Commons license CC-SA-BY-NC 3.0 
+
+
+Update: Winners Announced
+
+The winners of the contest have been announced. Please see the Meta post for details.
+
+To celebrate 10 years of Arduino, we are proud to announce the first event ever on Arduino Stack Exchange.
+
+
+  Get your boards and soldering equipment out, dig out the ICs and
+  resistors. The first Arduino Stack Exchange contest is just round the
+  corner. We will be looking for interesting projects that are built
+  using Arduinos. The contest is aimed towards sharing, discussing and
+  providing feedback on projects that you and other members are working
+  on. See announcement post
+
+
+Details:
+
+
+The prize is an official Stack Exchange t-shirt
+Limit two entries per person. If more than two are provided, only the first two will be considered. 
+Clones are allowed.
+Projects for consideration will be accepted through March 29th, 2014 at 4:00 UTC. The question will still remain open in case someone wants to show off their project they made on Arduino Day 2014.
+
+
+Visit the Meta post for discussion about this event and further information.
+
+Answer Format
+
+You may post up to two projects (as two separate answers) as entries for the contest. All extra entries will be deleted. Consider following the following template for entries:
+
+
+  Project Title
+  
+  Very Brief Description
+  
+  Description
+  
+  What is your project? What does it do? What problem does it solve?
+  
+  Design
+  
+  Things to include in this section:
+  
+  
+  Schematics and other design documentation. Fritzing is a good tool for drawing breadboard schematics like the one shown in the
+  project logo above.
+  Components used to build the project
+  Pictures or video
+  
+  
+  Conclusion
+  
+  Final thoughts. What did you learn from doing this project? What would
+  you do differently if you had to start over?
+
+
+You can copy/paste the following text if you want to use this template.
+
+# Project Title
+**Very Brief Description**
+
+# Description
+What is your project? What does it do? What problem does it solve?
+
+# Design
+Things to include in this section:
+
+- Schematics and other design documentation. [Fritzing][8] is a good tool for drawing breadboard schematics like the one shown in the project logo above.
+- Components used to build the project
+- Pictures or video
+
+# Conclusion
+Final thoughts. What did you learn from doing this project? What would you do differently if you had to start over?
+
+
+Prizes
+
+There are two prizes! The winner will be the submission getting the maximum number of upvotes (downvotes do not count) and will get a Stack Exchange T-shirt*! There will be something for the runner-up as well. The runner-up will be decided at the discretion of the event organizers.
+
+*Certain restrictions may apply. International shipping may take a few weeks. 
+
+Where do I submit my projects?
+
+Post your projects as answers to this post.
+",hek,"
+
+- Learn how to create your own low cost wireless sensors and connect them to the world.
+
+http://www.mysensors.org
+
+We call it ""Internet of Your Things"" 
+
+Description
+
+We've combined the Arduino platform with a small radio transceiver into a fun, flexible world of low cost wireless sensors.
+
+All the nitty-gritty details about the sensor communication has been packaged into a convenient software library so you don't have to worry about them.
+
+It is as easy as 1, 2, 3.
+
+
+
+Connect the parts. 2. Download the provided examples. 3. Start measuring and controlling the world!
+
+
+Read more about how the sensor network is automatically being formed using our Arduino Library on the site. It basically forms a star network and can reach hundred of meters.
+
+
+
+In the middle you place an Arduion or Raspberry gateway that collects the information from your sensors.
+
+
+
+
+Design and schematics
+
+Here is one of the prototype motion sensors I created to control the garden light outside of my house. The motions status is sent to my HA controller which turns on the light (via z-wave) when motion has been detected. A light sensor (not in the image) makes sure only to turn on the lights at night.
+
+
+You will find all the build instructions here:
+http://www.mysensors.org/build/
+
+Othe site there is also easy-to-follow build instructions for a bunch of other wireless sensors and actuators. Here are some examples:
+
+Distance Sensor, Motion sensor, Relay actuator, Humidity, Light, Pressure, Rain, Temperature, ... 
+
+Conclusion
+
+The project is still in the starting blocks and we hope to provide plugins for a growing list of Home Automation controllers. The first thing on our list right now is to provide a DIY controller that provides a free cloud storage for your sensor data.
+
+
+
+See you @ mysensors.org
+
+/Henrik Ekblad (the creator of the Open Source Arduino Library used for the communication between the sensors) 
+
+
+UPDATE 27/3. Made the example more concrete and added my affiliation with the open source project. 
+
+",1.8130338153834453,0.0
+12,arduino.stackexchange.com,JVarhol,2.516310727213411,3.2426064375732064,0.0,2.8996623536012045,2.1501080437122084,2.468214578084615,Installing a different firmware on Arduino,"Is it possible to upgrade the firmware on an Arduino so that it can do more things such as change undervolting/ overvolting in order to provide more processing power. To do this you would have to most likely re flash the chip itself, so how would that be accomplished?
+",mpflaga,"Note the below chart, in regard to your under/over volting the device for different F_CPU, indicates the relationship. As a result you find most Arduino's run at 5V and a clock rate of 16MHz. While there are some 3.3V variants that run at 8MHz. 
+
+
+
+However, the core library provided with the IDE typically has specific #if's for both 8 and 16 MHz F_CPU speeds, not using a formula in most places.
+
+Hence it is possible to do what you ask. However, you will find the core library limitations affecting. Tipping the cost vs benefit ratio, to that of the very intent. And then likely one would leave the Stock IDE and core libraries to a more makefile method.
+",2.0184192764733138,0.0
+12,arduino.stackexchange.com,JVarhol,2.516310727213411,3.2426064375732064,0.0,2.8996623536012045,2.1501080437122084,2.468214578084615,Installing a different firmware on Arduino,"Is it possible to upgrade the firmware on an Arduino so that it can do more things such as change undervolting/ overvolting in order to provide more processing power. To do this you would have to most likely re flash the chip itself, so how would that be accomplished?
+",Connor Wolf,"To answer the aspect of your question regarding the ""firmware"" on the ATmega328p MCU used in most of the Arduino boards:  
+
+There is no firmware on the ATmega at all aside from the bootloader. The programs you write are running directly on the hardware. 
+
+There are certain ""fuse"" settings which are set with a ISP programmer. However, there are only 24 of them (three bytes), and they largely relate to low-level configuration, and are not what I think you're asking:
+
+
+There is also the Bootloader, which is a small program that sits in a separate segment of the MCU's program memory and allows it to update itself at startup (which is how all arduinos are programmed). However, it only runs for a short period of time at startup, and is completely removed from memory after the MCU has jumped to the main program.
+
+Lastly, there are auxiliary MCUs (ATmega16U2/8U2) on most arduino boards that are used as USB-serial interfaces, that can be updated to behave differently (e.g. emulate a keyboard/mouse), but again, this isn't actually a change to the core processor, so whether it counts as ""installing a different firmware"" depends on how you define the arduino.
+
+Really, I'd strongly reccomend reading the ATmega328P datasheet. This is the documentation for the MCU that basically forms the ""Arduino"". It should address what seems to be misconceptions. 
+",2.342493489840041,0.0
+105,arduino.stackexchange.com,JVarhol,3.542444786382093,6.250150832924823,2.6380976008102532,6.07741182124643,3.368817748986503,2.447919563032256,"Programming an Arduino using Python, rather than C/C++","I am not very skilled with the C Language and I was wondering if there is a way in which python could be used to program an Arduino. This would most likely require a different IDE in order to be able to debug the scripts them self. 
+",Peter Bloomfield,"It's going to be extremely difficult to get any kind of Python script running directly on the Arduino. The reason is that it's an interpreted language, so you would need the interpreter on-board in addition to the plain text script. There's probably not going to be enough memory for all of that.
+
+Your best bet would probably be finding a way to compile a Python script to native machine code (which is how C/C++ works). I believe there are projects around to do something like that for other platforms, but (as far as I know) none which does it successfully for Arduino yet.
+
+You might find some more useful information on this question at Stack Overflow: Is there a way to ""compile"" Python code onto an Arduino (Uno).
+",3.6702498130436894,2.144146371199283
+105,arduino.stackexchange.com,JVarhol,3.542444786382093,6.250150832924823,2.6380976008102532,6.07741182124643,3.368817748986503,2.447919563032256,"Programming an Arduino using Python, rather than C/C++","I am not very skilled with the C Language and I was wondering if there is a way in which python could be used to program an Arduino. This would most likely require a different IDE in order to be able to debug the scripts them self. 
+",imlucky,"Yes. Python can be used to program an Arduino, simply by importing pyfirmata, which can interface the arduino with Python.
+",-0.7808311632800138,0.0
+117,arduino.stackexchange.com,JVarhol,3.876317060989049,5.680308314390186,4.739312802152743,6.965492072692873,4.065442451709963,3.2903934981987972,Is there a way to have more than 14 Output pins on arduino?,"Is it possible to have more than 14 output pins on the Arduino, I am working on a project in which I need to light up several LEDs individually. I only have an Arduino Uno, and I don't want to get a Mega. 
+",Ricardo,"A common way to expand the set of available output pins on the Arduino is to use shift registers like the 74HC595 IC (link to datasheet).
+
+You need 3 pins to control these chips: 
+
+
+Clock
+Latch
+Data
+
+
+In a program, you pass on the data one bit at a time to the shift register using the shiftOut() command, like so:
+
+shiftOut(dataPin, clockPin, data); 
+
+
+With that command, you set each of the 8 outputs on the 595 IC with the 8 bits in the data variable.
+
+With one 595, you gain 5 pins (8 on the IC, but you spend 3 to talk to it). To get more outputs, you can daisy-chain a series of 595 together, by connecting its serial-out pin, to the data pin of the next one. You also must connect together the clock and latch pins of all of the 595 ICs.
+
+The resulting circuit (using one 595) would look like this:
+
+
+
+The figure above was taken from this codeproject.com webpage:
+
+
+Arduino Platform - Working with Shift Registers
+
+
+The latch pin is used to keep the 595 outputs steady while you are shifting out data into it, like so:
+
+digitalWrite(latchPin, LOW);
+shiftOut(dataPin, clockPin, data); 
+digitalWrite(latchPin, HIGH);
+
+",4.429206478390633,2.144146371199283
+117,arduino.stackexchange.com,JVarhol,3.876317060989049,5.680308314390186,4.739312802152743,6.965492072692873,4.065442451709963,3.2903934981987972,Is there a way to have more than 14 Output pins on arduino?,"Is it possible to have more than 14 output pins on the Arduino, I am working on a project in which I need to light up several LEDs individually. I only have an Arduino Uno, and I don't want to get a Mega. 
+",Madivad,"If it's all about LEDs, what about WS2812B LED strips, or just the driver chips themselves? You can control a virtually unlimited number of LEDs using just one pin! 
+
+Although people are use to these in strips, they are available as standalone LEDs (known as neo pixels on Adafruit). Or if you're only driving a single colour, each WS2811 chip could control 3 LEDs by using each of the RGB outputs for a single LED each. 
+
+I recently just created created a project that uses 5 such LEDs: Door1 open/closed, Door2 open/closed, motor1 active, motor2 active and power. The ""active"" LEDs are dual purpose since I have red being the input from active motor and green being active flag inside the Arduino.  
+
+Point being, with 1 pin and the library installed, you can control any number of LEDs 
+",1.5616623265600276,0.0
+13,arduino.stackexchange.com,Jakub Arnold,3.23333855966647,5.0325777918539325,2.3696564010763717,5.136008818494832,3.0975374537210327,2.555725921437587,"What does it take to compile Linux on Arduino, if at all possible?","Is it possible to run Linux on Arduino? If yes, what steps and limitations need to be considered? If not, what are the limitations that prevent this?
+",Connor Wolf,"The short answer is no.
+
+Basically, you would need LOTS more ram then even the biggest ATmega has natively.
+
+It is theoretically possible to add external hardware, and program the ATmega to emulate a more powerful CPU, and run linux on that. However, on a plain arduino, it is not possible.
+
+It would be much more realistic to run linux on a Arduino Due, which is basically a AT91SAM3X8E CPU. However, you'd still need to add some additional SRAM and storage. 
+
+There are things like the Arduino Yun, but that is really a entirely separate linux module on the same PCB as a ATmega32U4, so I don't know if you can really count it as an arduino.
+
+
+
+Possibly relevant: What does it take to run embedded linux?
+",2.1920702095301112,0.0
+13,arduino.stackexchange.com,Jakub Arnold,3.23333855966647,5.0325777918539325,2.3696564010763717,5.136008818494832,3.0975374537210327,2.555725921437587,"What does it take to compile Linux on Arduino, if at all possible?","Is it possible to run Linux on Arduino? If yes, what steps and limitations need to be considered? If not, what are the limitations that prevent this?
+",sa_leinad,"There is a board called the pcDuino that can run multiple variants of Linux such as Debian, Ubuntu, Open WRT, LEDE, Raspian PIXEL (just to mention a few). This board is not a native Arduino, rather Arduino AtHeart, and is made by LinkSprite.
+
+
+Arduino have a couple of boards that support running a variant of Linux called Linino:
+
+
+The Arduino Yún is a microcontroller board based on the ATmega32u4 and the Atheros AR9331. The Atheros processor supports a Linux distribution based on OpenWrt named Linino OS. The board has built-in Ethernet and WiFi support, a USB-A port, micro-SD card slot, 20 digital input/output pins (7 of them can be used as PWM outputs and 12 as analog inputs), a 16 MHz crystal oscillator, a micro USB connection, an ICSP header, and 3 reset buttons.  
+The new Arduino Tian board is powered by Atmel’s SAMD21 MCU, featuring a 32-bit ARM Cortex® M0+ core and a Qualcomm Atheros AR9342, which is an highly integrated MIPS processor operating at up to 533MHz and feature-rich IEEE802.11n 2x2 2.4/5 GHz dual-band WiFi module. Qualcomm Atheros MIPS supports a Linux distribution, based on OpenWRT named Linino. The Arduino Tian has also a build in 4GB eMMC memory that will can be helpful to build your projects. It is possible to Switch ON/OFF the Linux port from the MCU to reduce the power consumption.
+Arduino Industrial 101 is an Evaluation board for Arduino 101 LGA module. The ATmega32u4 microcontroller is integrated in the baseboard. The module supports a Linux distribution based on OpenWRT named LininoOS. The board has built-in WiFi (IEEE 802.11b/g/n operations up to 150Mbps 1x1 2.4 GHz), 3 GPIOs (of which 2 can be used as PWM Outputs), 4 Analog Inputs, 1 USB, 1 Ethernet signal on pin headers and a built-in DC/DC converter. Check out the assembling guide and simply connect your board to a computer with a micro USB cable to get started.  
+
+",0.7808311632800138,0.0
+17,arduino.stackexchange.com,The Guy with The Hat,4.602386774928805,6.438300359472354,4.55109729863485,7.906895075444469,4.362900940257177,2.8163133963437663,"""avrdude: stk500_getsync(): not in sync: resp=0x00,"" aka Some Dude Named Avr Won't Let Me Upload My Program","I made an awesome program the other day, and I wanted to upload it to my Arduino. After clicking the upload button, some mean dude named avr came along and stopped me, saying:
+
+
+  avrdude: stk500_getsync(): not in sync: resp=0x00
+
+
+All I want to do is just upload my program, but avr won't let me. He's even unintelligible, so can someone tell me what the heck he's trying to say and how to get rid of him?
+
+
+
+i.e.:
+
+Whenever I try to upload a program to my Arduino, I get this error message:
+
+
+  avrdude: stk500_getsync(): not in sync: resp=0x00
+
+
+What does this mean, and how can I fix it?
+",The Guy with The Hat,"This is caused by a generic connection error between your computer and the Arduino, and can result from many different specific problems.
+
+Here are some easy things that can often fix this error:
+
+
+Disconnect and reconnect the USB cable.
+Press the reset button on the board.
+Restart the Arduino IDE.
+Make sure you select the right board in Tools ► Board ►, e.g. If you are using the Duemilanove 328, select that instead of Duemilanove 128. The board should say what version it is on the microchip.
+Make sure you selected the right port in Tools ► Serial Port ►. One way to figure out which port it is on is by following these steps:
+
+
+Disconnect the USB cable.
+Go to Tools ► Serial Port ► and see which ports are listed (e.g. COM4 COM5 COM14).
+Reconnect the USB cable.
+Go back to Tools ► Serial Port ►, and see which port appeared that wasn't there before.
+
+Make sure digital pins 0 and 1 do not have any parts connected, including any shields.
+
+
+If none of those work, you will want to try to isolate the issue by replacing things: try a different computer on the same arduino, try a different arduino on the same computer, and try using a different USB cable.
+
+If the issue is with the computer:
+
+
+Double-check all computer-related issues in the ""easy fixes"" list above.
+Reinstall the IDE.
+Reinstall the drivers.
+
+
+If the issue is with the Arduino:
+
+
+Double-check all board-related issues in the ""easy fixes"" list above.
+Make sure the microcontroller is seated correctly.
+You may need to burn the bootloader.
+Replace the microcontroller if you have another one handy nearby.
+You may have bricked your Arduino. Sorry :(
+
+",4.753280691757361,2.144146371199283
+17,arduino.stackexchange.com,The Guy with The Hat,4.602386774928805,6.438300359472354,4.55109729863485,7.906895075444469,4.362900940257177,2.8163133963437663,"""avrdude: stk500_getsync(): not in sync: resp=0x00,"" aka Some Dude Named Avr Won't Let Me Upload My Program","I made an awesome program the other day, and I wanted to upload it to my Arduino. After clicking the upload button, some mean dude named avr came along and stopped me, saying:
+
+
+  avrdude: stk500_getsync(): not in sync: resp=0x00
+
+
+All I want to do is just upload my program, but avr won't let me. He's even unintelligible, so can someone tell me what the heck he's trying to say and how to get rid of him?
+
+
+
+i.e.:
+
+Whenever I try to upload a program to my Arduino, I get this error message:
+
+
+  avrdude: stk500_getsync(): not in sync: resp=0x00
+
+
+What does this mean, and how can I fix it?
+",Mikech,"For people using Linux Mint I found that by selecting the ""TTY SO"" port instead of the one labeled ""Arduino"" it would work (I can't tell you exactly because I don't have that computer in front of me right now). 
+
+Then the next time I used the Arduino I again got the same message so I switched back to the ""Arduino"" port and it has worked that way ever since.  
+
+I am not as technically knowledgeable as the rest of you guys so I have no idea why this works or what the problem was, but it worked which is all I care about.  Maybe this will be useful to someone.
+",1.5616623265600276,0.0
+129,arduino.stackexchange.com,The Guy with The Hat,1.7577826867766422,3.37276629254855,0.0,1.8294832541980406,2.1501080437122084,2.6375873161156034,"Is my ATmega broken, and would replacing it with another break that one, too?","I was communicating between my computer and my Arduino Uno R3 through Bluetooth using this Bluetooth module. The connector I use has a red wire where it connects to GND, and a black wire where it connects to +5V.
+
+
+  
+
+                ↓        ↓  to Uno ↓       ↓
+               +5V      GND       pin 0  pin 1
+
+
+
+I forgot this one time when I connected the Bluetooth module to the Uno, so the polarity was reversed. This fried the Bluetooth module.
+
+After getting a new module, I discovered that the Uno was apparently fried too. Plugging a USB cable into the Uno made the little green integrated LED turn on, but that was all that happened; none of the pins put out any electricity. When I tried to upload a program, it gave the infamous avrdude: stk500_getsync(): not in sync: resp=0x00 error. I could upload programs to my other Uno fine, and I could not upload to the broken Uno on my other computer.
+
+Two of the Arduino experts I know told me that the ATmega328 chip might be the only broken part. Is this likely to be the case? I have an Uno R2 with a working ATmega328. Would temporarily replacing the R3's ATmega with that R2's ATmega have a change of damaging anything?
+",jfpoilpret,"Besides breaking a pin while removing the IC from its socket, or static electricity during manipulation, I don't see what could fry the ATmega. 
+
+However, it is possible that the R2 ATmega has a different bootloader and that may be an issue.
+
+If I was you I would just remove the ATmega from the R3 board and test it on a breadboard (don't need a lot of components to do that); at least that could tell you if it is fried or if it is the R3 board that is fried...
+",2.342493489840041,2.144146371199283
+179,arduino.stackexchange.com,The Guy with The Hat,3.777138009900567,6.224947208077949,3.2350842763561958,4.7291456077992455,3.7336291949274805,3.4349216934761215,Is there any way to download a sketch from an Arduino?,"I made a sketch, but then I lost it. However, I uploaded it to the Arduino before losing it. Is there any way I can get it back?
+",sachleen,"It should be possible as long as the security bit isn't set. This question was asked on EE a while back. 
+
+Is it possible to extract code from an arduino board?
+
+But you won't get the Arduino code you wrote back. The code is compiled into assembly and you'll have to convert that back to C yourself.
+",4.067703531537036,2.144146371199283
+179,arduino.stackexchange.com,The Guy with The Hat,3.777138009900567,6.224947208077949,3.2350842763561958,4.7291456077992455,3.7336291949274805,3.4349216934761215,Is there any way to download a sketch from an Arduino?,"I made a sketch, but then I lost it. However, I uploaded it to the Arduino before losing it. Is there any way I can get it back?
+",Nick Gammon,"Unless your objective is to simply copy the identical code to another device, the simple answer is: no
+
+As has been pointed out in other answers, you can turn the hex code on the device back into assembler code.
+
+For example (once you have copied the code from the device back onto your disk):
+
+avr-objdump -j .sec1 -d -m avr5 yourFileHere.hex
+
+
+Run on one of the bootloader files I get these results (in part):
+
+00007e00 &lt;.sec1&gt;:
+    7e00:       11 24           eor     r1, r1
+    7e02:       84 b7           in      r24, 0x34       ; 52
+    7e04:       14 be           out     0x34, r1        ; 52
+    7e06:       81 ff           sbrs    r24, 1
+    7e08:       f0 d0           rcall   .+480           ;  0x7fea
+    7e0a:       85 e0           ldi     r24, 0x05       ; 5
+    7e0c:       80 93 81 00     sts     0x0081, r24
+    7e10:       82 e0           ldi     r24, 0x02       ; 2
+    7e12:       80 93 c0 00     sts     0x00C0, r24
+    7e16:       88 e1           ldi     r24, 0x18       ; 24
+    7e18:       80 93 c1 00     sts     0x00C1, r24
+    7e1c:       86 e0           ldi     r24, 0x06       ; 6
+    7e1e:       80 93 c2 00     sts     0x00C2, r24
+    7e22:       80 e1           ldi     r24, 0x10       ; 16
+    7e24:       80 93 c4 00     sts     0x00C4, r24
+    7e28:       8e e0           ldi     r24, 0x0E       ; 14
+    7e2a:       c9 d0           rcall   .+402           ;  0x7fbe
+    7e2c:       25 9a           sbi     0x04, 5 ; 4
+
+
+As you can see, not particularly helpful for reproducing what your sketch did. There are likely to be one of two scenarios:
+
+
+Your sketch was short, in which case you might, after weeks of work, turn the assembler code back into C
+Your sketch was long, in which case it would be virtually impossible to turn it back into C
+
+
+In the ""short sketch"" case, you are better off just rewriting from scratch. That would be faster, almost certainly. In the ""long sketch"" case - it just isn't worth it. None of the variable names are preserved, and the way the compiler optimizes code, even the structure of the code would be hard to determine.
+",1.8130338153834453,0.0
+189,arduino.stackexchange.com,The Guy with The Hat,2.8355622066654655,4.913509217987155,2.041110925264311,5.136008818494832,3.196086597872202,2.6375873161156034,What happens if there is a runtime error?,"What happens if there is a runtime error in a program? Will execution of the program just stop? Is there some way I get get the Arduino to tell me what the error is?
+",Ricardo,"First, let's see a few examples of what can go wrong.
+
+Uninitialized local variables
+
+void setup() {
+  int status;
+  pinMode(13, OUTPUT);
+  digitalWrite(13, status);
+} 
+
+
+As pointed out by Edgar Bonet in the comments, local variables like status in the code above are not implicitly initialized by the C++ compiler. So, the outcome of the code above is indeterminate. To avoid that, make sure you always assign values to your local variables.
+
+Things are a bit different with global and static variables:
+
+
+  Global and static variables are guaranteed to be initialized to 0 by the C standard.
+
+
+Source: 
+AVR Libc Reference Manual - Frequently Asked Questions - Shouldn't I initialize all my variables?
+
+That means you shouldn't worry about initializing them to 0 in your code. In fact, you should really avoid it, as the initialization may waste memory. Only initialize them to values other than 0.
+
+Memory overflow
+
+int array[10];
+int v = array[100];
+array[-100] = 10;
+
+
+The first problem here is that you don't know what will be assigned to v, but worse is that you don't know what you messed up with the assignment to position -100 of array.
+
+Jump to an illegal instruction
+
+void doSomething( void ) { 
+    for (int i = 0; i &lt; 1000; i++); 
+}
+
+void setup () 
+{
+    void (*funcPtr)( void );
+
+    funcPtr = &amp;doSomething;
+    funcPtr(); // calls doSomething();
+
+    funcPtr = NULL;
+    funcPtr(); // undefined behavior
+}
+
+
+The first call to funcPtr() will actually be a call to doSomething(). Calls like the second one may lead to undefined behavior.  
+
+Other bad things that may happen
+
+Well, you can run out of RAM, for example. What else. In any case, I think your program will keep running, probably not the way you intended it to.
+
+Kinds of Protection
+
+In computer systems, problems like these are usually dealt with at various levels:
+
+
+By the compiler
+By the programming language runtime (as in Java for example). 
+By the operating system or the processor (if your memory access a position outside the boundaries of the address space reserved to your program, the OS or the processor may have safety mechanisms to prevent that)
+
+
+Arduinos only have limited protection of the compiler, and probably nothing else. The good news is that they aren't multi-tasked, so the only program being affected is yours. In any case, any of those bugs will lead to erratic behavior.
+
+The Answers
+
+The assumptions are the all of the problems I stated above are runtime problems.
+
+
+  What happens if there is a runtime error in a program? 
+
+
+The program will continue and what happens will depend on the side-effects of the runtime error. A call to the null function pointer will probably make the program jump to an unknown location.
+
+
+  Will execution of the program just stop?
+
+
+No, it will keep going as if nothing extraordinary happened, probably doing what you didn't intend it to do. It may reset or act erratically. It may turn some inputs into outputs and burn a sensor or two (but that's highly unlikely).
+
+
+  Is there some way I get the Arduino to tell me what the error is?
+
+
+I don't think so. As I said earlier, the protection mechanisms aren't there. There's no runtime support from the language, no OS, no hardware checks for out-of-bounds memory access (the bootloader doesn't count as either). You just have to be careful with your program and probably set your own safety nets. 
+
+The reason for the lack of protection is probably because Arduino controllers are too cheap, have too little memory, and should not run anything too important (yes, there seems to be a disclaimer by AVR somewhere for you not to use the MCUs normally used by Arduino in life support systems).
+",3.482063178348236,2.144146371199283
+189,arduino.stackexchange.com,The Guy with The Hat,2.8355622066654655,4.913509217987155,2.041110925264311,5.136008818494832,3.196086597872202,2.6375873161156034,What happens if there is a runtime error?,"What happens if there is a runtime error in a program? Will execution of the program just stop? Is there some way I get get the Arduino to tell me what the error is?
+",Connor Wolf,"There are no runtime exceptions. There is only undefined behaviour.
+
+Really, there are no exceptions at all. If you try to perform an invalid operation, it's results will be unknown.
+
+There is no runtime checking at all, except what you implement. Your program is running on bare-metal hardware. It's the Desktop equivalent of running in ring-0 all the time, because the ATmega doesn't have rings. 
+",2.5938649786634596,0.0
+414,arduino.stackexchange.com,The Guy with The Hat,2.352424456305216,4.18768882896288,1.0205554626321556,3.658966508396081,2.866810724949611,2.527221095327207,"Could someone explain this weird looking code, used to setup timers?","While looking at sketches other people have written, I occasionally come across code that looks somewhat like this:
+
+TCCR1A = 0;
+TCCR1B = 0;
+
+TCNT1 = 34286;
+TCCR1B |= (1 &lt;&lt; CS12);
+TIMSK1 |= (1 &lt;&lt; TOIE1);
+
+
+All I know is that is has something to with timing/timers (I think). How can I decipher—and create—code like this? What are TCCR1A, TCCR1B, TCNT1, CS12, TIMSK1, and TOIE1?
+",TheDoctor,"TCCR1A is timer/counter 1 control register A
+
+TCCR1B is timer/counter 1 control register B
+
+TCNT1 is timer/counter 1's counter value
+
+CS12 is the 3rd clock select bit for timer/counter 1
+
+TIMSK1 is timer/counter 1's interrupt mask register
+
+TOIE1 is the timer/counter 1 overflow interrupt enable
+
+So, the code enables timer/counter 1 at 62.5 kHz and sets the value to 34286. Then it enable the overflow interrupt so when it reaches 65535, it will trigger the interrupt function, most likely labelled as ISR(timer0_overflow_vect)
+",1.5616623265600276,0.0
+414,arduino.stackexchange.com,The Guy with The Hat,2.352424456305216,4.18768882896288,1.0205554626321556,3.658966508396081,2.866810724949611,2.527221095327207,"Could someone explain this weird looking code, used to setup timers?","While looking at sketches other people have written, I occasionally come across code that looks somewhat like this:
+
+TCCR1A = 0;
+TCCR1B = 0;
+
+TCNT1 = 34286;
+TCCR1B |= (1 &lt;&lt; CS12);
+TIMSK1 |= (1 &lt;&lt; TOIE1);
+
+
+All I know is that is has something to with timing/timers (I think). How can I decipher—and create—code like this? What are TCCR1A, TCCR1B, TCNT1, CS12, TIMSK1, and TOIE1?
+",Connor Wolf,"This isn't weird looking. It's what normal MCU code actually looks like.
+
+What you have here is an example of the concept of memory-mapped peripherals. Basically, the MCU hardware has special locations in the SRAM address space of the MCU assigned to it. If you write to these addresses, the bits of the byte written to address n control the behaviour of peripheral m.   
+
+Basically, certain banks of memory literally have little wires running from the SRAM cell to the hardware. If you write a ""1"" to this bit in that byte, it sets this SRAM cell to a logical high, which then turns on some portion of the hardware.
+
+If you look into the headers for the MCU, there are great big tables of keyword&lt;->address mappings. This is how things like TCCR1B etc... are resolved at compile time.
+
+This memory-mapping mechanism is extremely broadly used in MCUs. The ATmega MCU in the arduino use it, as do PIC, ARM, MSP430, STM32 and STM8 MCU series, as well as lots of MCUs I'm not immediately familiar with. 
+
+
+
+Arduino code is the weird stuff, with functions that access the MCU control registers indirectly. While this is somewhat ""nicer"" looking, it's also much slower, and uses a lot more program space.
+
+The mysterious constants are all described in great detail in the ATmega328P datasheet, which you really should read if you're interested in doing anything more then occationally toggling pins on an arduino.
+
+Select excerpts from the datasheet linked above:  
+
+
+
+
+
+So, for example, TIMSK1 |= (1 &lt;&lt; TOIE1); sets the bit TOIE1 in TIMSK1. This is achieved by shifting binary 1 (0b00000001) to the left by TOIE1 bits, with TOIE1 being defined in a header file as 0. This is then bitwise ORed into the current value of TIMSK1, which effectively set this one bit high.
+
+Looking at the documentation for bit 0 of TIMSK1, we can see it is described as  
+
+
+  When this bit is written to one, and the I-flag in the Status Register
+  is set (interrupts globally enabled), the Timer/Counter1 Overflow
+  interrupt is enabled. The corresponding Interrupt Vector (See
+  ”Interrupts” on page 57) is executed when the TOV1 Flag, located in
+  TIFR1, is set.
+
+
+All the other lines should be interpreted in the same manner.
+
+
+
+Some notes:
+
+You may also see things like TIMSK1 |= _BV(TOIE1);. _BV() is a commonly used macro originally from the AVR libc implementation. _BV(TOIE1) is functionally identical to (1 &lt;&lt; TOIE1), with the benefit of better readability.
+
+Also, you may also see lines such as: TIMSK1 &amp;= ~(1 &lt;&lt; TOIE1); or TIMSK1 &amp;= ~_BV(TOIE1);. This has the opposite function of TIMSK1 |= _BV(TOIE1);, in that it unsets the bit TOIE1 in TIMSK1. This is achieved by taking the bit-mask produced by _BV(TOIE1), performing a bitwise NOT operation on it (~), and then ANDing TIMSK1 by this NOTed value (which is 0b11111110).
+
+Note that in all these cases, the value of things like (1 &lt;&lt; TOIE1) or _BV(TOIE1) are fully resolved at compile time, so they functionally reduce to a simple constant, and therefore take no execution time to compute at runtime.
+
+
+
+Properly written code will generally have comments inline with the code that detail what the registers being assigned to do. Here is a fairly simple soft-SPI routine I wrote recently:
+
+uint8_t transactByteADC(uint8_t outByte)
+{
+    // Transfers one byte to the ADC, and receives one byte at the same time
+    // does nothing with the chip-select
+    // MSB first, data clocked on the rising edge
+
+    uint8_t loopCnt;
+    uint8_t retDat = 0;
+
+    for (loopCnt = 0; loopCnt &lt; 8; loopCnt++)
+    {
+        if (outByte &amp; 0x80)         // if current bit is high
+            PORTC |= _BV(ADC_MOSI);     // set data line
+        else
+            PORTC &amp;= ~(_BV(ADC_MOSI));  // else unset it
+
+        outByte &lt;&lt;= 1;              // and shift the output data over for the next iteration
+        retDat &lt;&lt;= 1;               // shift over the data read back
+
+        PORTC |= _BV(ADC_SCK);          // Set the clock high
+
+        if (PINC &amp; _BV(ADC_MISO))       // sample the input line
+            retDat |= 0x01;         // and set the bit in the retval if the input is high
+
+        PORTC &amp;= ~(_BV(ADC_SCK));       // set clock low
+    }
+    return retDat;
+}
+
+
+PORTC is the register that controls the value of output pins within PORTC of the ATmega328P. PINC is the register where the input values of PORTC are available. Fundamentally, things like this are what happen internally when you use the digitalWrite or digitalRead functions. However, there is a look-up operation that converts the arduino ""pin numbers"" into actual hardware pin numbers, which takes somewhere in the realm of 50 clock cycles. As you can probably guess, if you're trying to go fast, wasting 50 clock cycles on an operation that should only require 1 is a bit ridiculous.
+
+The above function probably takes somewhere in the realm of 100-200 clock cycles to transfer 8 bits. This entails 24 pin-writes, and 8 reads. This is many, many times faster then using the digital{stuff} functions.
+",3.123324653120055,2.144146371199283
+455,arduino.stackexchange.com,The Guy with The Hat,1.5789184578092066,4.215232656454256,0.0,4.247928567048389,2.1501080437122084,2.041429364002458,Why does opening the Tools menu take so long?,"Every time I open the Tools menu, the IDE freezes for a few seconds. Why is that? It happens on both of my computers, and nothing I do makes a difference in how long it takes. I've tried restarting the IDE, unplugging my Uno, and many other things, but nothing helps.
+
+I'm on windows, running IDE version 1.0.2.
+",Federico Fissore,"It's an RXTX issue. RXTX is the native serial library used to make the IDE talk to the boards.
+
+On some Windows installation, with some Bluetooth things (both dongles or integrated), when enumerating serial devices, these dongles scan the air for remote serial devices. Hence, the IDE stays stuck, waiting for RXTX serial device enumeration to end. This issue has been acknowledged a lot of times, see for example #1375, #532, #200 and #143
+
+As far as I understand, this issue does not affect linux or mac because of the different way the scan occurs. On linux it's a plain filtered file listing of /dev. Similarly it's on mac. On windows, it uses native API calls.
+
+Some fixes are available in the 1.5 series but I suggest switching to the latest 1.5.6 release as RXTX was replaced by JSSC, a more modern and simpler library.
+",2.342493489840041,2.144146371199283
+455,arduino.stackexchange.com,The Guy with The Hat,1.5789184578092066,4.215232656454256,0.0,4.247928567048389,2.1501080437122084,2.041429364002458,Why does opening the Tools menu take so long?,"Every time I open the Tools menu, the IDE freezes for a few seconds. Why is that? It happens on both of my computers, and nothing I do makes a difference in how long it takes. I've tried restarting the IDE, unplugging my Uno, and many other things, but nothing helps.
+
+I'm on windows, running IDE version 1.0.2.
+",Johnny Norre,"I was having the same problem under Windows 7 x64 and had already removed all com ports and unknown devices as suggested above. For me, the solution was to rename ""ListComPorts.exe"" in the hardware\tools subfolder to ""ListComPorts.exe.xxx"" - this prevents the Arduino IDE from using this file and appearently it reverts to using the internal COM port detection mechanism (using DEVICE_ARRIVAL/DEVICE_REMOVAL messages??) . The tool menu now opens immediately every time.
+",1.2375881131933,0.0
+473,arduino.stackexchange.com,The Guy with The Hat,2.7200126675512757,5.4829596935847,2.6380976008102532,2.8996623536012045,2.866810724949611,3.203662955966382,How do I burn the bootloader?,"I was instructed to ""burn the bootloader"" to my Arduino to fix an error I was getting. How can I do this? (And what exactly is the bootloader?)
+",The Guy with The Hat,"The bootloader is a small program that is (almost) always on an Arduino. It manages uploading and starting the sketches you make, and blinks the pin 13 LED whenever the board resets.
+
+
+
+To burn the bootloader:
+
+
+Obtain an AVR ISP, USBtinyISP, ParallelProgrammer, or another Arduino board. This will be your ISP.
+Unless otherwise instructed, connect the ISP to the ICSP pins on your board.
+Power your board with either a USB cable or an external power supply.
+Open up the Arduino IDE.
+Make sure you selected the correct board that you are burning to at Tools ► Board ► in the IDE. Double-check this even if you could upload programs correctly; uploading doesn't always require the right board.
+Select the appropriate programmer at Tools ► Programmer ►.
+Click Tools ► Burn Bootloader, and wait. It shouldn't take more than a minute, and often takes only a few seconds.
+
+
+
+
+Sources:
+
+
+http://arduino.cc/en/Hacking/Bootloader
+http://arduino.cc/en/Guide/Environment
+
+",3.123324653120055,2.144146371199283
+473,arduino.stackexchange.com,The Guy with The Hat,2.7200126675512757,5.4829596935847,2.6380976008102532,2.8996623536012045,2.866810724949611,3.203662955966382,How do I burn the bootloader?,"I was instructed to ""burn the bootloader"" to my Arduino to fix an error I was getting. How can I do this? (And what exactly is the bootloader?)
+",Nick Gammon,"What is a bootloader?
+
+
+  And what exactly is the bootloader? 
+
+
+The bootloader is a small piece of code residing in the ""high"" part of program memory. Normally it is not erased when you upload new sketches. Its purpose it to be activated immediately after a reset (the fuses are configured to commence code at the bootloader address rather than address 0x0000). The bootloader will wait a short time (such as one second) to see if ""programming"" data is arriving on the serial port.
+
+
+If so, it reads that data, and decodes it to reprogram the rest of the flash memory. Working in conjunction with the uploading program (normally avrdude) the new sketch is sent via the serial port. The bootloader erases pages of flash memory, and replaces them with the new code. Once done, it executes the new code.
+If no instructions arrive, the bootloader jumps to address 0x0000 to execute the existing sketch on the board.
+
+
+
+
+How to replace the bootloader
+
+An alternative method to program a bootloader is to use a sketch I wrote a while ago which runs on a:
+
+
+Uno (or similar, such as Duemilanove)
+Leonardo
+Mega2560
+
+
+The ""programming"" board runs the sketch which has bootloaders for a number of boards hard-coded into it. You connect the programming board to the target board (the board wanting the bootloader) with 6 hook-up wires as shown.
+
+
+
+That particular photo illustrates one Uno programming another one.
+
+You run the sketch (operating via the Serial Monitor to give it commands). First it identifies the target chip:
+
+Atmega chip programmer.
+Written by Nick Gammon.
+Entered programming mode OK.
+Signature = 0x1E 0x95 0x0F 
+Processor = ATmega328P
+Flash memory size = 32768 bytes.
+LFuse = 0xFF 
+HFuse = 0xDE 
+EFuse = 0xFD 
+Lock byte = 0xCF 
+Bootloader address = 0x7E00
+Bootloader length = 512 bytes.
+Type 'L' to use Lilypad (8 MHz) loader, or 'U' for Uno (16 MHz) loader ...
+Type 'G' to program the chip with the bootloader ...
+
+
+The you  press G to program it.
+
+Erasing chip ...
+Writing bootloader ...
+Committing page starting at 0x7E00
+Committing page starting at 0x7E80
+Committing page starting at 0x7F00
+Committing page starting at 0x7F80
+Written.
+Verifying ...
+No errors found.
+Writing fuses ...
+LFuse = 0xFF 
+HFuse = 0xDE 
+EFuse = 0xFD 
+Lock byte = 0xCF 
+Done.
+Type 'C' when ready to continue with another chip ...
+
+
+For a Uno this takes one second. To program a Mega2560 takes 3 seconds.
+
+Detailed instructions at Atmega bootloader programmer
+
+Code can be downloaded from Github: nickgammon/arduino_sketches
+
+",2.4751762263866004,0.0
+25,arduino.stackexchange.com,Ricardo,1.3600063337756378,3.3612840612474226,1.0205554626321556,1.8294832541980406,1.4334053624748055,1.758391544077069,Why Arduino Severino (S3V3) sometimes needs reseting when uploading a sketch?,"I have an original Arduino UNO R3 that I bought and an Arduino Severino (S3V3) that I've built.
+
+I have no problems uploading sketches to the UNO, but sometimes, when uploading to the Severino board, I have to hard reset it at a specific time during the upload process, when the IDE says something like this below:
+
+avrdude: Version 5.11, compiled on Sep  2 2011 at 19:38:36
+         Copyright (c) 2000-2005 Brian Dean, http://www.bdmicro.com/
+         Copyright (c) 2007-2009 Joerg Wunsch
+
+         System wide configuration file is ""C:\arduino-1.0.3\hardware/tools/avr/etc/avrdude.conf""
+
+         Using Port                    : \\.\COM1
+         Using Programmer              : arduino
+         Overriding Baud Rate          : 115200
+avrdude: Send: 0 [30]   [20] 
+avrdude: Send: 0 [30]   [20] 
+avrdude: Send: 0 [30]   [20] 
+
+
+If I don't reset it when one of the Send messages are being displayed, I get the not in sync message, as below:
+
+avrdude: Recv: 
+avrdude: stk500_getsync(): not in sync: resp=0x00
+
+
+Other times, if I'm lucky, I can upload to the Severino board without having to reset it.
+
+So, my questions are:
+
+
+Why does that happen? Why Severino needs a hard reset during upload?
+Why is the problem intermitent? Why does it happen sometimes and others it doesn't?
+How can I fix that problem? Is there a simple change to the Severino design that would fix that?
+
+",mpflaga,"Why does that happen?
+
+When the serial port is opened by either monitor, avrdude or other it toggles the DTR pin of the serial port. Which in turn is AC coupled through C4 100nF. This toggling is converted to a up and down pulse on the ATmega(CPU)'s RESET pin. The subsequent reset starts initially with the boot loader, which typically in turn waits for a avrdude's semiphore (e.i. Send: 0 [30]   [20] ) and if seen then responds in turn and if not seen after a timeout period (typically 5s) it continues on with the application in flash space. 
+
+You behavior is describing either; not hearing the response. Or the reset is not getting triggered. Since it does work some times I suspect its prior, but the later. 
+
+Why Severino needs a hard reset during upload?
+
+This statement further supports the later.
+
+Why is the problem intermitent?
+
+the pulse is almost long and strong enough, where the DTR toggle is in code and likely has some significant inconsistency. 
+
+How can I fix that problem?
+
+Yes, change the value of C4 100nF and or R11 10K, to better pass the toggle. I could derive some EE explanation of what value to pick. But I would suggest some trial and error.
+
+It should also have 5V clamping, as the RS232 levels can reach +/-12V (typically +/-9V) where the AC coupling prevents the DC and burn out. but the AC will stress it.
+",1.5616623265600276,2.144146371199283
+26,arduino.stackexchange.com,Ricardo,2.1555590397776467,3.7335551359304744,0.0,3.658966508396081,1.4334053624748055,1.5271328065673295,Custom Arduino board beeps and process freezes while I'm uploading a sketch to it. Why?,"The strangest thing is happening to a standalone Arduino board that I designed and built. The board (whose schematics are below) has the following features:
+
+
+It has a ATmega328P with a 5V voltage regulator and usual circuitry when set up as a standalone controller. 
+It controls a scoreboard with several 7-display digits linked through the connectors on the right (JP1 through JP12). 
+It has cursor buttons decoded using a voltage ladder through ANALOG_0 (A0).
+It has a Real Time Clock to keep time when it's turned off.
+It has an RF receiver module.
+It has a UART header (JP17) so I can program the board using a serial port.
+It has a speaker attached to digital pin 3 (D3). 
+
+
+
+
+I upload sketches to it using a RS232-to-TTL adapter that I've also built (schematics also below) and a Serial-to-USB cable. When programming it, the board behaves much like a Severino board.
+
+
+
+What's strange is that, when I upload a sketch, the process is paused in the middle and then the speaker starts to beep continually. It pauses with the following avrdude messages:
+
+avrdude: Version 5.11, compiled on Sep  2 2011 at 19:38:36
+         Copyright (c) 2000-2005 Brian Dean, http://www.bdmicro.com/
+         Copyright (c) 2007-2009 Joerg Wunsch
+
+     System wide configuration file is ""C:\arduino-1.0.3\hardware/tools/avr/etc/avrdude.conf""
+
+     Using Port                    : \\.\COM1
+     Using Programmer              : arduino
+     Overriding Baud Rate          : 115200
+
+
+When I press reset on the board, avrdude continues outputting its messages (such as below), the beep stops, the upload continues and the sketch is uploaded successfully to the board.
+
+avrdude: Send: 0 [30]   [20] 
+avrdude: Send: 0 [30]   [20] 
+avrdude: Send: 0 [30]   [20] 
+... messages and upload continue and completes successfully.
+
+
+I don't have the rest of the messages handy here, but I hope you get the idea.
+
+So, my questions are:
+
+
+What is making the upload process pause?
+Why is the buzzer beeping when the process pauses?
+
+",Ricardo,"I'm not sure but the problem may also be related to the auto-reset feature of the converter board.
+
+I copied the converter board design from the Arduino Severino and according to its manual, the serial communication must be set to 19,200 bps for the auto-reset feature to work.
+
+
+  Be sure that computer COM Port speed is set to 19200bps otherwise
+  auto reset will not work properly.
+
+
+Well, I'm using 115,200, so that must be a problem.
+",0.7808311632800138,0.0
+26,arduino.stackexchange.com,Ricardo,2.1555590397776467,3.7335551359304744,0.0,3.658966508396081,1.4334053624748055,1.5271328065673295,Custom Arduino board beeps and process freezes while I'm uploading a sketch to it. Why?,"The strangest thing is happening to a standalone Arduino board that I designed and built. The board (whose schematics are below) has the following features:
+
+
+It has a ATmega328P with a 5V voltage regulator and usual circuitry when set up as a standalone controller. 
+It controls a scoreboard with several 7-display digits linked through the connectors on the right (JP1 through JP12). 
+It has cursor buttons decoded using a voltage ladder through ANALOG_0 (A0).
+It has a Real Time Clock to keep time when it's turned off.
+It has an RF receiver module.
+It has a UART header (JP17) so I can program the board using a serial port.
+It has a speaker attached to digital pin 3 (D3). 
+
+
+
+
+I upload sketches to it using a RS232-to-TTL adapter that I've also built (schematics also below) and a Serial-to-USB cable. When programming it, the board behaves much like a Severino board.
+
+
+
+What's strange is that, when I upload a sketch, the process is paused in the middle and then the speaker starts to beep continually. It pauses with the following avrdude messages:
+
+avrdude: Version 5.11, compiled on Sep  2 2011 at 19:38:36
+         Copyright (c) 2000-2005 Brian Dean, http://www.bdmicro.com/
+         Copyright (c) 2007-2009 Joerg Wunsch
+
+     System wide configuration file is ""C:\arduino-1.0.3\hardware/tools/avr/etc/avrdude.conf""
+
+     Using Port                    : \\.\COM1
+     Using Programmer              : arduino
+     Overriding Baud Rate          : 115200
+
+
+When I press reset on the board, avrdude continues outputting its messages (such as below), the beep stops, the upload continues and the sketch is uploaded successfully to the board.
+
+avrdude: Send: 0 [30]   [20] 
+avrdude: Send: 0 [30]   [20] 
+avrdude: Send: 0 [30]   [20] 
+... messages and upload continue and completes successfully.
+
+
+I don't have the rest of the messages handy here, but I hope you get the idea.
+
+So, my questions are:
+
+
+What is making the upload process pause?
+Why is the buzzer beeping when the process pauses?
+
+",zmo,"
+  What is making the upload process pause?
+
+
+Well, given all the comments made under your question, this is definitely a tricky one. You might want to try to add a decoupling capacitor as suggested by @jfpoilpret, though your schematics look alright to me… (maybe ask a review of it on EE SE).
+
+I'd also advice you to copy the avrdude command from Arduino IDE output (you'll find it at the top), and run it in the command shell with lower bitrate:
+
+avrdude -v -v -v -v -C ""C:\arduino-1.0.3\hardware/tools/avr/etc/avrdude.conf"" -P COM1 -patmega328 -U… -B3 -b115200
+
+
+the higher the -B value is the lower your bitrate is. and -b to the correct baudrate for your bootloader (are you sure this is 115200? it's more common to see 57600).
+
+Did you also set fuses correctly? You might as well want to check the values of the fuses to see if the clocks are correctly set up:
+
+avrdude -U lfuse:r:-:i -U hfuse:r:-:i -U efuse:r:-:i
+
+
+which will output the values of the fuses. Then to make the values readable, put the values at the bottom of the form on the fuse calculator site, after choosing the Atmega328P MCU from the dropdown list.
+
+Double check that:
+
+
+you have enough size for the bootloader (usually the more you give it the better it is) ;
+you have correctly set up the cristals configuration for your design (which may not be compatible with default Uno settings as setup by the Arduino IDE), checking if you correctly set up the external crystal at 16MHz…
+
+
+
+  Why is the buzzer beeping when the process pauses?
+
+
+It's because when the processor does not have the output set up, the values within the registers are in an undefined and unpredictable state. Which means that usually it keeps the last value it had before a reset, or changed state because of some electrostatic weirdness, or is giving some weird PWM output because of the influence of a clock nearby.
+
+So basically, there's something wrong happening when you're uploading your code and that wrong thing has an indirect effect on the audio. I wouldn't worry much about that stuff, but more about the cause of the pausing.
+
+Sadly, I don't have a direct answer for you, but at best a few paths you should investigate more. HTH
+",1.5616623265600276,2.144146371199283
+218,arduino.stackexchange.com,Ricardo,2.516310727213411,4.460592032090122,1.0205554626321556,2.8996623536012045,1.6641320912462272,1.907788886908792,I got a missignatured ATmega328-PU. How can I fix that?,"Sometime in the past, I was burning bootloaders on a fresh batch of four ATmega328-PU using the Arduino IDE (notice there's no P after 328 - it's the slightly cheaper non-picopower version of the MCU, not to be confused with the ATmega328P-PU with a P), and was surprised with the following message from avrdude:
+
+avrdude: Device signature = 0x1e950F 
+avrdude: Expected signature for ATMEGA328 is 1E 95 14 
+Double check chip, or use -F to override this check. 
+
+
+That means avrdude thought the chip was not what its label said. Then I changed the chip type on my Arduino IDE to ATmega328P-PU and avrdude burned the bootloader without complaints. What that means is that the chip was labelled as one MCU and internally it responded as another, slightly different.
+
+What I would like to know is:
+
+
+How rare is this event? Has anyone had a similar experience? (Original question, off-topic)
+Is it possible to fix this? How can I fix the signature so that avrdude recognize the chip correctly?
+
+
+This is a cross-post from EE.SE. I posted this question there but didn't attract much attention, so I wanted to see if anyone from our community had a similar experience.
+",TheDoctor,"While browsing sparkfun, i have found several news posts that show their struggle with mislabeled chips. Here are a few:
+
+
+https://www.sparkfun.com/news/350
+https://www.sparkfun.com/news/384
+https://www.sparkfun.com/news/364
+
+
+Sparkfun had received a questionable shipment if ICs from a new seller in china. They decided to test them before sending them into production, and none of their test boards worked. Using nitric acid, they were able to remove the case of the ICs and fould a hunk of metal that looked like copper.
+
+In another article, they dissected some suspicious ICs from Atmel, and found an ON semiconductor silicon wafer inside. The chips were not functional ATmegas, but they did have silicon, unlike the other ones.
+",1.8130338153834453,0.0
+218,arduino.stackexchange.com,Ricardo,2.516310727213411,4.460592032090122,1.0205554626321556,2.8996623536012045,1.6641320912462272,1.907788886908792,I got a missignatured ATmega328-PU. How can I fix that?,"Sometime in the past, I was burning bootloaders on a fresh batch of four ATmega328-PU using the Arduino IDE (notice there's no P after 328 - it's the slightly cheaper non-picopower version of the MCU, not to be confused with the ATmega328P-PU with a P), and was surprised with the following message from avrdude:
+
+avrdude: Device signature = 0x1e950F 
+avrdude: Expected signature for ATMEGA328 is 1E 95 14 
+Double check chip, or use -F to override this check. 
+
+
+That means avrdude thought the chip was not what its label said. Then I changed the chip type on my Arduino IDE to ATmega328P-PU and avrdude burned the bootloader without complaints. What that means is that the chip was labelled as one MCU and internally it responded as another, slightly different.
+
+What I would like to know is:
+
+
+How rare is this event? Has anyone had a similar experience? (Original question, off-topic)
+Is it possible to fix this? How can I fix the signature so that avrdude recognize the chip correctly?
+
+
+This is a cross-post from EE.SE. I posted this question there but didn't attract much attention, so I wanted to see if anyone from our community had a similar experience.
+",jippie,"Not the preferred way to fix things and certainly not the first solution to consider, but you can consider programming the signature bytes. Before attempting this be absolutely sure you really want to do this and you have investigated what is involved to undo this. This may involve changing configuration files on your computer ...
+
+Anyways the way to set the controller's signature bytes is as follows (untested, I don't have a spare AVR lying around):
+
+avrdude -p atmega328 -c arduino -P /dev/ttyUSB003 -b 19200 -v -U signature:w:0x1E,0x95,0x14:m
+
+",1.5616623265600276,0.0
+791,arduino.stackexchange.com,Ricardo,1.9090102375772768,5.081772584550117,1.6175421381780974,4.247928567048389,1.4334053624748055,1.393492329473663,RF remote control using VirtualWire on ATtiny85 running at 8MHz on internal oscillator,"I'm trying to make an RF remote control using ATtiny85 running at 8MHz on internal oscillator, this cheap RF 434MHz transmitter module (like the one below), and VirtualWire lib, but had no success so far. 
+
+
+
+So, before I go any further, is it possible to use VirtualWire with ATtiny85 running at 3.6V and 8MHz with its internal oscillator? If so, how?
+
+I've found a few scattered sources of information on the Net about it, but couldn't make much sense of it. 
+
+I have build ATMega328 versions of the receiver and transmitter using VirtualWire without any major problems. Both modules talk to each other will very little data drop out. Now, when I tried to replace the ATMega328 transmitter with a smaller version using the ATtiny85, I'm having problems. 
+
+Here are the symptoms: 
+
+
+The major one seem to be that when I add the VirtualWire include, my sketch seems to slow down a lot. So I figure it's a timing issue. But I'm not sure what the problem is.
+I put a scope on ATtiny85 pin 6 (PB1) but I don't see anything being transmitted. I think I've messed up with the pin names. 
+I can make the LED blink and also can read the buttons without problems.
+
+
+Here are the schematics and the board design for the remote controller:
+
+
+
+The board is currently powered by 2 AA NiMH batteries that are currently at 2.6V. I can make the ATtiny85 blink with that voltage. I plan to power the RC with a 3.6V CR2 lithum battery.
+
+Here are more details of my development enviroment:
+
+
+Arduino IDE 1.05
+I'm using ATtiny cores from here
+I'm programming the ATtiny85 using an Arduino UNO R3 as ISP, without problems (it's working as I can make the ATtiny85 blink an LED).
+
+
+And here's my code:
+
+#include &lt;VirtualWire.h&gt;
+
+#define VCC_PIN  A1
+#define BTN_PIN  A2
+#define LED_PIN  A3
+#define TXD_PIN  PB1
+
+#define BLINK_UP_TIME  25
+
+#define BUTTON_NONE  0
+#define BUTTON_1     1
+#define BUTTON_2     2
+#define BUTTON_3     3
+#define BUTTON_4     4
+#define BUTTON_5     5
+#define BUTTON_6     6
+
+void setup()
+{
+  pinMode(BTN_PIN, INPUT);
+  pinMode(TXD_PIN, OUTPUT);     
+  pinMode(VCC_PIN, OUTPUT);     
+  pinMode(LED_PIN, OUTPUT);     
+
+  // leave RF transmitter off for now
+  digitalWrite(VCC_PIN, LOW);
+
+  // Initialise the IO and ISR
+  vw_set_tx_pin(TXD_PIN);
+  vw_setup(2000);    // Bits per sec
+
+  // let the user know we are alive: heartbeat
+  blink(3, 50);
+  delay(1000);
+}
+
+uint8_t buf[VW_MAX_MESSAGE_LEN];
+uint8_t buflen = VW_MAX_MESSAGE_LEN;
+
+void loop()
+{
+  byte button = ReadButtons();
+  if (button != BUTTON_NONE) {
+    // transmit button pressed
+    digitalWrite(LED_PIN, HIGH); // Flash a light to show transmitting
+    digitalWrite(VCC_PIN, HIGH); // turn tranmitter on
+    delay(10);
+    buf[0] = button;
+    vw_send(buf, 1);
+    vw_wait_tx(); // Wait until the whole message is gone
+    digitalWrite(LED_PIN, LOW); // turn off LED
+    digitalWrite(VCC_PIN, LOW); // turn tranmitter off
+  }
+  delay(100);
+}
+
+byte ReadButtons()
+{
+  unsigned int buttonVoltage = analogRead(BTN_PIN);
+  byte button = BUTTON_NONE;   // return no button pressed if the below checks don't write to btn
+  if      (buttonVoltage &lt; 10)   {    button = BUTTON_1; } 
+  else if (buttonVoltage &lt; 200)  {    button = BUTTON_2; } 
+  else if (buttonVoltage &lt; 400)  {    button = BUTTON_3; } 
+  else if (buttonVoltage &lt; 550)  {    button = BUTTON_4; } 
+  else if (buttonVoltage &lt; 720)  {    button = BUTTON_5; } 
+  else if (buttonVoltage &lt; 900)  {    button = BUTTON_6; }
+  else if (buttonVoltage &gt; 1000) {    button = BUTTON_NONE; }
+  return( button );
+}
+
+
+So, What's wrong with my setup?
+",imjosh,"I tried those Tiny cores you are using and had a lot of problems. I switched to http://code.google.com/p/arduino-tiny/ and it seems much better. Create a second Arduino installation folder and add the arduino-tiny cores.  The pin name constants are like PIN_A0, PIN_A1,...,PIN_B1, etc. So, try that out.
+
+I looked briefly at the VirtualWire code and there are ifdefs specifically for the Attiny85, so it should work.  Here is a derivative project with working ATTINY85 examples: http://cosa-arduino.blogspot.de/2013/03/news-virtual-wire-interface.html
+",1.5616623265600276,0.0
+791,arduino.stackexchange.com,Ricardo,1.9090102375772768,5.081772584550117,1.6175421381780974,4.247928567048389,1.4334053624748055,1.393492329473663,RF remote control using VirtualWire on ATtiny85 running at 8MHz on internal oscillator,"I'm trying to make an RF remote control using ATtiny85 running at 8MHz on internal oscillator, this cheap RF 434MHz transmitter module (like the one below), and VirtualWire lib, but had no success so far. 
+
+
+
+So, before I go any further, is it possible to use VirtualWire with ATtiny85 running at 3.6V and 8MHz with its internal oscillator? If so, how?
+
+I've found a few scattered sources of information on the Net about it, but couldn't make much sense of it. 
+
+I have build ATMega328 versions of the receiver and transmitter using VirtualWire without any major problems. Both modules talk to each other will very little data drop out. Now, when I tried to replace the ATMega328 transmitter with a smaller version using the ATtiny85, I'm having problems. 
+
+Here are the symptoms: 
+
+
+The major one seem to be that when I add the VirtualWire include, my sketch seems to slow down a lot. So I figure it's a timing issue. But I'm not sure what the problem is.
+I put a scope on ATtiny85 pin 6 (PB1) but I don't see anything being transmitted. I think I've messed up with the pin names. 
+I can make the LED blink and also can read the buttons without problems.
+
+
+Here are the schematics and the board design for the remote controller:
+
+
+
+The board is currently powered by 2 AA NiMH batteries that are currently at 2.6V. I can make the ATtiny85 blink with that voltage. I plan to power the RC with a 3.6V CR2 lithum battery.
+
+Here are more details of my development enviroment:
+
+
+Arduino IDE 1.05
+I'm using ATtiny cores from here
+I'm programming the ATtiny85 using an Arduino UNO R3 as ISP, without problems (it's working as I can make the ATtiny85 blink an LED).
+
+
+And here's my code:
+
+#include &lt;VirtualWire.h&gt;
+
+#define VCC_PIN  A1
+#define BTN_PIN  A2
+#define LED_PIN  A3
+#define TXD_PIN  PB1
+
+#define BLINK_UP_TIME  25
+
+#define BUTTON_NONE  0
+#define BUTTON_1     1
+#define BUTTON_2     2
+#define BUTTON_3     3
+#define BUTTON_4     4
+#define BUTTON_5     5
+#define BUTTON_6     6
+
+void setup()
+{
+  pinMode(BTN_PIN, INPUT);
+  pinMode(TXD_PIN, OUTPUT);     
+  pinMode(VCC_PIN, OUTPUT);     
+  pinMode(LED_PIN, OUTPUT);     
+
+  // leave RF transmitter off for now
+  digitalWrite(VCC_PIN, LOW);
+
+  // Initialise the IO and ISR
+  vw_set_tx_pin(TXD_PIN);
+  vw_setup(2000);    // Bits per sec
+
+  // let the user know we are alive: heartbeat
+  blink(3, 50);
+  delay(1000);
+}
+
+uint8_t buf[VW_MAX_MESSAGE_LEN];
+uint8_t buflen = VW_MAX_MESSAGE_LEN;
+
+void loop()
+{
+  byte button = ReadButtons();
+  if (button != BUTTON_NONE) {
+    // transmit button pressed
+    digitalWrite(LED_PIN, HIGH); // Flash a light to show transmitting
+    digitalWrite(VCC_PIN, HIGH); // turn tranmitter on
+    delay(10);
+    buf[0] = button;
+    vw_send(buf, 1);
+    vw_wait_tx(); // Wait until the whole message is gone
+    digitalWrite(LED_PIN, LOW); // turn off LED
+    digitalWrite(VCC_PIN, LOW); // turn tranmitter off
+  }
+  delay(100);
+}
+
+byte ReadButtons()
+{
+  unsigned int buttonVoltage = analogRead(BTN_PIN);
+  byte button = BUTTON_NONE;   // return no button pressed if the below checks don't write to btn
+  if      (buttonVoltage &lt; 10)   {    button = BUTTON_1; } 
+  else if (buttonVoltage &lt; 200)  {    button = BUTTON_2; } 
+  else if (buttonVoltage &lt; 400)  {    button = BUTTON_3; } 
+  else if (buttonVoltage &lt; 550)  {    button = BUTTON_4; } 
+  else if (buttonVoltage &lt; 720)  {    button = BUTTON_5; } 
+  else if (buttonVoltage &lt; 900)  {    button = BUTTON_6; }
+  else if (buttonVoltage &gt; 1000) {    button = BUTTON_NONE; }
+  return( button );
+}
+
+
+So, What's wrong with my setup?
+",user2973,"I spent some time getting VirtualWire to work on attiny84. I see two issues with your code:
+
+
+Since the tiny85 only has one timer, that one is being used by both VirtualWire and millis/micros. So your delays won't work as expected.
+VirtualWire uses default values for vw_ptt_pin (10) and vw_rx_pin (11). Those pins don't exist on the attiny85. When vwsetup calls pinMode with these values, it causes writes to arbitrary memory addresses. This is likely to make your sketch behave unpredictably. To fix set vw_set_ptt_pin() and vw_set_rx_pin() to pins that exist on the tiny85 or modify the VirtualWire source.
+
+",0.7808311632800138,0.0
+986,arduino.stackexchange.com,Ricardo,2.7794876765865135,4.745736037384007,2.041110925264311,1.8294832541980406,2.8000789651738187,3.4349216934761215,What's the 2nd ICSP header for in Arduino Uno R3?,"Looking at my Arduino Uno R3 board and its reference design schematic I noticed that there's a second ICSP 6-pin header. In the schematic, the connector I'm referring to is named ICSP1. 
+
+What's that for? 
+What useful things can an average Arduino user like me do with it?
+
+The relevant part of the schematic is below (marked in red).
+
+
+",Ignacio Vazquez-Abrams,"It's for the other MCU on the board.
+
+The main MCU on the Uno is labelled ""ZIC1"". This is the one that is programmed when you press ""Upload"" in the IDE. But unlike other Arduinos that use a FTDI chip to connect to the serial port on the main MCU, the Uno uses another MCU instead, labelled ""U3"" on the left. This MCU runs a small bit of code that acts as a serial port via USB and passes through the bytes to its USART1. This then connects to the USART on the main MCU, where the bootloader on that chip accepts the bytes coming through and writes to flash and EEPROM on the main MCU.
+
+You can use this additional MCU as you would any other, but the only I/O it has available are the USB connection, the SPI connection via its ICSP header, the UART1 connection to both the main MCU and pins 0 and 1, and two LEDs on PD4 and PD5.
+",3.0506219285767453,2.144146371199283
+1002,arduino.stackexchange.com,Ricardo,0.6800031668878189,4.567992525797867,0.0,1.8294832541980406,1.1359468739275915,1.393492329473663,How to reduce serial speed on Arduino bootloader (optiboot) and on the IDE?,"I'm debugging a couple of RS232-to-TTL converter boards that I'm trying to use to program my Arduinos and one thing I would like to try would be to reduce the upload serial speed from 115200 to 19200. 
+
+How do I do that?
+
+I imagine that there's a setting that can be easily changed on the Arduino IDE preferences. But where is it? But then the bootloader speed would have to match that? How do I change the serial upload speed on optiboot, too?
+",jfpoilpret,"On Arduino IDE side, the upload speed is coded in hardware/arduino/boards.txt 
+
+uno.upload.speed=115200
+...
+
+
+for every kind of board; you cannot change it directly from the IDE (that would be too dangerous as that value must match the expected speed for the actual bootloader of every board).
+
+Now as per the optiboot loader side, the upload speed is defined in BAUD_RATE macro, in optiboot.c:
+
+/* set the UART baud rate defaults */
+#ifndef BAUD_RATE
+#if F_CPU &gt;= 8000000L
+#define BAUD_RATE   115200L // Highest rate Avrdude win32 will support
+#elsif F_CPU &gt;= 1000000L
+#define BAUD_RATE   9600L   // 19200 also supported, but with significant error
+#elsif F_CPU &gt;= 128000L
+#define BAUD_RATE   4800L   // Good for 128kHz internal RC
+#else
+#define BAUD_RATE 1200L     // Good even at 32768Hz
+#endif
+#endif
+
+
+So I guess you can:
+
+
+#define BAUD_RATE 19200 before that block of code
+recompile the optiboot loader
+upload your own new bootloader version
+update uno.upload.speed accordingly in boards.txt
+check it on the usual blink sketch and cross your fingers :-)
+
+
+Please note that this kind of task is not for beginners, you need to know what you're doing.
+Also note that I disclaim any responsibility if you get unable to upload programs to your Arduino afterwards!
+",1.2375881131933,2.144146371199283
+1003,arduino.stackexchange.com,Ricardo,1.7577826867766422,4.173548503150624,0.0,4.247928567048389,1.8526495551649944,2.041429364002458,Can the Arduino Uno become an AVR programmer and use the ICSP header to program the target board,"The Arduino Uno has an ICSP header that I imagine is for programming the board using a separate ICSP programmer. That is, its ICSP header turn the board into a target.
+
+Can one use that same ICSP to program other boards, turning the Arduino Uno effectively into a ICSP AVR programmer? How?
+
+I'm assuming that the target boards would also be Arduinos and wanted the Uno to program them using the Arduino IDE. Is that possible?
+
+Reading the AVR In-System Programming Application Note it looks to me that the only issue would be to make the programmer (the Arduino Uno) control the target board reset line. I've seen something like that in ArduinoISP sketch, but in that sketch, the target reset is controlled by port D10. But one could program the reset line to be an output, right? So could we change the ArduinoISP sketch to use its own reset line as output to control the target board reset line? If not, why not?
+",Ricardo,"To answer my own question, just to report that I found something close to what I was looking for, which I link and describe briefly below.
+
+Gammon Software Solutions forum - Atmega Bootloader Programmer - Programming Cable
+
+On that page, the author suggest that we cut pin 5 from the 6-pin ICSP programming cable, solder a pin to it, and wire it to pin D10. Like so:
+
+ 
+
+Then, you can load the Arduino Uno with the ArduinoISP sketch and program the target board as usual.
+",1.5616623265600276,0.0
