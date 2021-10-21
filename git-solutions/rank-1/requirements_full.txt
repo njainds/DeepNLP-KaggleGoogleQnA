@@ -21,7 +21,7 @@ avro-json-serializer==1.0.1
 avro-python3==1.8.2
 aws-xray-sdk==0.95
 awscli==1.16.135
-Babel==2.6.0
+Babel==2.9.1
 backcall==0.1.0
 backports.os==0.1.1
 backports.shutil-get-terminal-size==1.0.0
