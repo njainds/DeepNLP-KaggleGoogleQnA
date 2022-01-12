@@ -262,7 +262,7 @@ pep8==1.7.1
 pexpect==4.6.0
 pickleshare==0.7.5
 Pillow==7.0.0
-pipenv==2018.11.26
+pipenv==2022.1.8
 pipreqs==0.4.10
 pke==1.8
 pkginfo==1.4.2
