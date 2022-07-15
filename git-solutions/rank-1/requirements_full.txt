@@ -82,7 +82,7 @@ decorator==4.3.0
 deperson==0.4.8
 Deprecated==1.2.4
 dill==0.2.8.2
-distributed==1.25.0
+distributed==2021.10.0
 docker==3.7.2
 docker-pycreds==0.4.0
 docopt==0.6.2
